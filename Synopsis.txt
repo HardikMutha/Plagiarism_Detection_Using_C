@@ -1,0 +1,87 @@
+Project Synopsis: Similarity Detection Between Files
+
+	Title:- Similarity Detection Between Files
+
+1) Objectives:
+
+-> The objective of the Plagiarism Detection Software is to develop an efficient command-line tool capable of determining the percentage similarity between two or more files. 
+
+-> Initially focusing on .txt, .c, and .cpp formats, this tool aims to promote academic integrity and originality by providing clear, accurate metrics of file similarity. 
+
+-> The software will implement algorithms that calculate similarity percentages with precision, helping to identify potential plagiarism in both written and code-based content.
+
+2) Scope:
+
+-> While the initial version of the software supports .txt, .c, and .cpp file formats, the design allows for future scalability. 
+
+-> The system can be extended to accommodate additional programming languages like .java and .py by integrating corresponding language grammars and tokenization techniques. 
+
+-> This flexibility ensures that the tool remains relevant and useful in diverse academic and programming environments.
+
+
+3) Key Components:
+
+
+i) For .txt Files:
+
+-> Stop Word Removal: Common stop words such as "is," "the," "and," "or" will be excluded from the analysis to enhance accuracy.
+
+-> N-Gram Tokenization: The file will be tokenized into N-grams, where sequences of N words are analyzed for similarity between files.
+
+-> Efficient Data Storage: Tokens will be stored in a Binary Search Tree (BST), allowing for efficient searching and updating operations, with a time complexity of O(log(n)).
+
+-> Token Comparison: Binary search will be employed to compare the tokens efficiently. The union and intersection of tokens will be used to calculate the similarity percentage between files.
+
+
+ii) For .c/.cpp Code Files:
+
+-> Lexical Analysis: The software will utilize a lexical analyzer, such as Flex (a GNU tool), to break down source code into meaningful tokens, aiding in the comparison process.
+
+-> Algorithm Integration: The similarity checker will integrate advanced algorithms, including JPlag, Rabin-Karp, and WAP3. 
+The Rabin-Karp algorithm, with its O(N) time complexity, provides a significant performance boost over traditional linear search algorithms, which operate at O(N^2) when comparing two files with n tokens each.
+
+4) List of Data Structures:
+-> Arrays and Linked Lists: Used for the temporary storage of tokens generated during file analysis.
+
+-> Binary Search Tree (BST): Utilized for storing stop words and combined tokens, ensuring efficient searching and updates.
+
+-> HashMap: Implemented in the Rabin-Karp algorithm using a rolling hash 
+method to optimize token comparison.
+
+-> Stack & Queue: Supporting data structures for intermediate processing.
+
+-> Sparse Matrix: Utilized in optimizing memory usage and access times for files with large number of tokens.
+
+-> Set (Custom Data Structure): A custom structure designed to store unique elements in sorted order, aiding in token comparison operations.
+
+This tool, by leveraging efficient algorithms and data structures, will 
+offer robust plagiarism detection, ensuring accuracy, speed, and scalability.
+
+5) Real-World Applications: This software can be utilized in educational institutions for checking student submissions, in software development for ensuring code originality, and by content creators to maintain the integrity of their work.
+
+6) Expected Outcomes:
+
+->A fully functional command-line tool that outputs similarity percentages and flags potential plagiarism.
+
+->Potential extension of functionality to support a broader range of file types and languages.
+
+->Future Enhancements: Future updates may include a graphical user interface and machine learning techniques to improve detection accuracy and efficiency.
+
+7) References:
+
+-> Research papers on plagiarism detection algorithms.
+-> Documentation for N-gram models and trie data structures.
+->Studies on academic integrity and the importance of originality in various fields.
+
+
+8)Conclusion: 
+->The Plagiarism Detection Software is designed to meet the increasing demand for tools that uphold academic and professional integrity. 
+
+->By employing a range of data structures and algorithms, the project aims to deliver an efficient and effective solution for detecting similarities across various file types.
+
+
+
+Team Member Names - 
+1) Hardik Mutha - 612303066
+2) Suswan Joglekar - 612303074
+3) Tanmay Karad - 612303083
