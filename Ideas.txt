@@ -1,0 +1,32 @@
+Final Idea - 
+
+Abhijit is the most marxist in COEP
+I am not a marxist in COEP
+
+Abhijitis
+isthe
+inCOEP
+marxistin
+mostmarxist
+themost
+
+amnot
+Iam
+inCOEP
+marxistin
+nota
+
+
+->First Tokenize
+->Then Convert to Ngrams and store unique Ngrams in a BST
+->then compare the Ngrams and find Jaccard Similarity.
+-> Ngram method
+-> bigrams & trigram also
+->string compare for token comparison
+
+
+
+
+
+
+
