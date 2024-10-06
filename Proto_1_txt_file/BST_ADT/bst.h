@@ -1,11 +1,11 @@
-typedef struct node
+typedef struct treenode
 {
     char val[144];
-    struct node *left;
-    struct node *right;
-} node;
+    struct treenode *left;
+    struct treenode *right;
+} treenode;
 
-typedef node *tree;
+typedef treenode *tree;
 
 void initBST(tree *t);
 void insertValue(tree *t, char *val);
@@ -14,6 +14,7 @@ void preOrderTraversal(tree t);
 void postOrderTraversal(tree t);
 void deleteNode(tree *t, char *val);
 int searchNode(tree t,char *val);
+void destroyTree(tree *t);
 /*
 
 */

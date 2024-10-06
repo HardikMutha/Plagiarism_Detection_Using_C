@@ -11,7 +11,7 @@ void initBST(tree *t)
 
 void insertValue(tree *t, char *val)
 {
-    node *newNode = (node *)malloc(sizeof(node));
+    treenode *newNode = (treenode *)malloc(sizeof(treenode));
     newNode->left = NULL;
     newNode->right = NULL;
     strcpy(newNode->val, val);
@@ -22,7 +22,7 @@ void insertValue(tree *t, char *val)
     }
     else
     {
-        node *curr = *t;
+        treenode *curr = *t;
         if (strcmp(curr->val, val) > 0)
         {
             return insertValue(&(curr->left), val);
@@ -95,4 +95,16 @@ int searchNode(tree t, char *val)
         return searchNode((t->right), val);
     else
         return searchNode((t->left), val);
+}
+
+void destroyTree(tree *t){
+    if(*t == NULL){
+        return;
+    }
+    treenode *p = *t;
+    destroyTree(&p->left);
+    destroyTree(&p->right);
+    free(p);
+    *t = NULL;
+    return;
 }
