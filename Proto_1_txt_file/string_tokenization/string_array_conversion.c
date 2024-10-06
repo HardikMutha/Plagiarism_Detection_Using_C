@@ -6,8 +6,8 @@
  *      -> file is opened, and will be closed at the end of the function
  *      -> internally calls the read_line function to read each line of the line rather than having to store the complete file
  *      -> each line is fed to preprocessor function called tokenize
- *      -> tokenize function returns a string containing all words in the line seperated by a comma
- *      -> the comma seperated words are stored in an array of strings
+ *      -> tokenize function returns a string containing all words in the line separated by a comma
+ *      -> the comma separated words are stored in an array of strings
  * 
  * - read_line function:
  *      -> arguments: fd(int), line(char *), max_line_size(int)
@@ -18,7 +18,7 @@
  *      -> arguments: line(char *), words(char *), max_words_size(int)
  *      -> return type: int(words size)
  *      -> leading and trailing white spaces are ignored
- *      -> all punctuation marks(',', ';', ':', '.', '-') and sigle spaces are converted to commas seperating each word on the given line
+ *      -> all punctuation marks(',', ';', ':', '.', '-') and sigle spaces are converted to commas separating each word on the given line
  *
  *
  */
@@ -80,7 +80,7 @@ int read_file(int fd, char *filename, char words[MAX_SIZE][MAX_SIZE], int max_wo
         // line is read into the line
         // line will be passed to the tokenize function
         tokenize(line, words[i], MAX_SIZE);
-        // we will get tokenized words string with comma seperated words
+        // we will get tokenized words string with comma separated words
         i++;
     }
 
@@ -110,7 +110,7 @@ int is_punctuation(char ch) {
 }
 
 int is_space(char ch) {
-    if(ch == ' ' || ch == '\t' || ch == '\v')
+    if(ch == ' ' || ch == '\t' || ch == '\v' || ch == '-')
         return 1;
     return 0;
 }
@@ -141,6 +141,6 @@ int tokenize(char *line, char *words, int max_words_size) {
             words[j++] = toLower(line[i++]);
         }
     }
-    words[j] = '\0'; // words string contains the words in line(string) seperated by comma
+    words[j] = '\0'; // words string contains the words in line(string) separated by comma
     return j;
 }
