@@ -3,11 +3,11 @@ typedef struct node
 {
     char *val;
     struct node *next;
-} node;
+} listnode;
 
 typedef struct list // struct for linked list with head pointer
 {
-    node *head;
+    listnode *head;
     int len; // stores the lenght of the linked list
 } list;
 
