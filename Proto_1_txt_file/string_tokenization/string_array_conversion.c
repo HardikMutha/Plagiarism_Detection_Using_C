@@ -21,7 +21,6 @@
  *      -> all punctuation marks(',', ';', ':', '.', '-') and sigle spaces are converted to commas seperating each word on the given line
  *
  *
- * let's get started now :)
  */
 
 
