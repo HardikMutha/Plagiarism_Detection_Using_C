@@ -13,7 +13,7 @@ void inOrderTraversal(tree t);
 void preOrderTraversal(tree t);
 void postOrderTraversal(tree t);
 void deleteNode(tree *t, char *val);
-
+int searchNode(tree t,char *val);
 /*
 
 */

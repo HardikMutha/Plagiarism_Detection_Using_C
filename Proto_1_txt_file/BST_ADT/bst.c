@@ -84,3 +84,15 @@ void postOrderTraversal(tree t)
 void deleteNode(tree *t, char *val)
 {
 }
+
+int searchNode(tree t, char *val)
+{
+    if (t == NULL)
+        return 0;
+    if (strcmp(t->val, val) == 0)
+        return 1;
+    else if (strcmp(t->val, val) < 0)
+        return searchNode((t->right), val);
+    else
+        return searchNode((t->left), val);
+}

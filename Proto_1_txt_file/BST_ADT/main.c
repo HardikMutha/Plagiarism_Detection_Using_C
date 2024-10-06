@@ -10,5 +10,6 @@ int main()
         insertValue(&t, a);
     }
     inOrderTraversal(t);
+    // printf("%d\n", searchNode(t, "Hardik"));
     return 0;
 }
