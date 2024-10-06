@@ -26,6 +26,17 @@ nota
 
 
 
+arr [string]
+This is coep -> 
+This is vjti
+
+This is                                            coep
+this is         vjti
+
+
+
+
+
 
 
 
