@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
     double file1_to_file2_similarity = (Jaccard_bigram_similarity_file1 + Jaccard_trigram_similarity_file1) / 2.0;
     double file2_to_file1_similarity = (Jaccard_bigram_similarity_file2 + Jaccard_trigram_similarity_file2) / 2.0;
 
-    printf("The Similarity %% between %s and %s is %.2lf%%\n", argv[1], argv[2], (file1_to_file2_similarity * 100));
-    printf("The Similarity %% between %s and %s is %.2lf%% \n", argv[2], argv[1], (file2_to_file1_similarity * 100));
+    printf("The Similarity %% of %s with respect to %s is %.2lf%%\n", argv[1], argv[2], (file1_to_file2_similarity * 100));
+    printf("The Similarity %% of %s with respect to %s is %.2lf%% \n", argv[2], argv[1], (file2_to_file1_similarity * 100));
     return 0;
 }
