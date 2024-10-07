@@ -16,3 +16,5 @@ void append(list *l, char *val);
 void traverse(list l);
 void insert_at_beg(list *l, char *val);
 void remove_at_beg(list *l);
+
+void deleteList(list *l);

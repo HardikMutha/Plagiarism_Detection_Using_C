@@ -80,3 +80,14 @@ void remove_at_beg(list *l)
     }
     return;
 }
+
+void deleteList(list *l){
+    listnode *p = l->head;
+    while(p != NULL){
+        p = p->next;
+        free(l->head);
+        l->head = p;
+    }
+    l->len = 0;
+    return;
+}

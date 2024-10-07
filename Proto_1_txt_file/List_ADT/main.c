@@ -1,4 +1,5 @@
-#include "linkedlist.c"
+#include "linkedlist.h"
+#include <stdio.h>
 
 int main()
 {
@@ -17,5 +18,7 @@ int main()
     remove_at_beg(&l1);
     printf("\n\n");
     traverse(l1);
+    deleteList(&l1);
+    printf("test0\n");
     return 0;
 }

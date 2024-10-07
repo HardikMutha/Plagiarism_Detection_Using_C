@@ -111,6 +111,11 @@ int main(int argc, char *argv[]){
 
     // free bst for trigram tokens (trigramToks_file1 and trigramToks_file2)
 
+
+    // delete list of words -
+    deleteList(&words_file1);
+    deleteList(&words_file2);
+
     printf("file1-bigrams:\n");
     inOrderTraversal(bigramToks_file1);
     printf("\nfile2-bigrams:\n");
