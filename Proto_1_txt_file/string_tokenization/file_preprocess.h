@@ -21,6 +21,7 @@
  *      -> all punctuation marks(',', ';', ':', '.', '-') and sigle spaces are converted to commas separating each word on the given line
  *
  *
+ * let's get started now :)
  */
 
 
@@ -34,11 +35,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
-
+#include "../List_ADT/linkedlist.h"
 
 #define MAX_SIZE 1024
 
-int read_file   (int fd, char *filename, char words[MAX_SIZE][MAX_SIZE], int max_words_size);
+int read_file   (int fd, char *filename, list *l);
 int read_line   (int fd, char *line, int max_line_size);
-int tokenize    (char *line, char *words, int max_words_size);
-// hnj
+int tokenize    (char *line, list *l); 

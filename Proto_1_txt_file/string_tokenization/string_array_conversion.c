@@ -35,7 +35,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
-#include "linkedList.h"
+#include "../List_ADT/linkedlist.h"
 
 #define MAX_SIZE 1024
 
@@ -45,26 +45,26 @@ int tokenize    (char *line, list *l);
 
 
 
-int main(int argc, char *argv[]) {
-    int fd = 0;
-    char *filename; // words[MAX_SIZE][MAX_SIZE];
-    filename = (char *)malloc(sizeof(char) * 32);
-    list l;
-    init_SLL(&l);
+// int main(int argc, char *argv[]) {
+//     int fd = 0;
+//     char *filename; // words[MAX_SIZE][MAX_SIZE];
+//     filename = (char *)malloc(sizeof(char) * 32);
+//     list l;
+//     init_SLL(&l);
     
-    if(argc != 3) {
-        printf("files not provided\n");
-        return 0;
-    }
-    // tokenization of first file:
-    strcpy(filename, argv[1]);
-    int tokens1 = read_file(fd, filename, &l); 
+//     if(argc != 3) {
+//         printf("files not provided\n");
+//         return 0;
+//     }
+//     // tokenization of first file:
+//     strcpy(filename, argv[1]);
+//     int tokens1 = read_file(fd, filename, &l); 
     
-    printf("tokens 1: %d\n", tokens1);
-    traverse(l);
-    free(filename);
-    return 0;
-}
+//     printf("tokens 1: %d\n", tokens1);
+//     traverse(l);
+//     free(filename);
+//     return 0;
+// }
 
 
 int read_file(int fd, char *filename, list *l) {
