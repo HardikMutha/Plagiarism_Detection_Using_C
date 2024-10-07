@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
 #include "bst.h"
 
 void initBST(tree *t)
@@ -9,7 +9,7 @@ void initBST(tree *t)
     return;
 }
 
-void insertValue(tree *t, char *val)
+int insertValue(tree *t, char *val)
 {
     treenode *newNode = (treenode *)malloc(sizeof(treenode));
     newNode->left = NULL;
@@ -18,7 +18,7 @@ void insertValue(tree *t, char *val)
     if (*t == NULL)
     {
         *t = newNode;
-        return;
+        return 1;
     }
     else
     {
@@ -32,7 +32,7 @@ void insertValue(tree *t, char *val)
             return insertValue(&(curr->right), val);
         }
     }
-    return;
+    return 0;
 }
 
 /*
@@ -97,8 +97,10 @@ int searchNode(tree t, char *val)
         return searchNode((t->left), val);
 }
 
-void destroyTree(tree *t){
-    if(*t == NULL){
+void destroyTree(tree *t)
+{
+    if (*t == NULL)
+    {
         return;
     }
     treenode *p = *t;
