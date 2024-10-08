@@ -8,53 +8,75 @@
  *      -> each line is fed to preprocessor function called tokenize
  *      -> tokenize function returns a string containing all words in the line separated by a comma
  *      -> the comma separated words are stored in an array of strings
- *
+ * 
  * - read_line function:
  *      -> arguments: fd(int), line(char *), max_line_size(int)
  *      -> return type: int(line size)
  *      -> reading the line from provided file
- *
+ *       
  * - tokenize:
  *      -> arguments: line(char *), words(char *), max_words_size(int)
  *      -> return type: int(words size)
  *      -> leading and trailing white spaces are ignored
- *      -> all punctuation marks(',', ';', ':', '.', '!','?') and sigle spaces are converted to commas separating each word on the given line
+ *      -> all punctuation marks(',', ';', ':', '.', '-') and sigle spaces are converted to commas separating each word on the given line
  *
  *
- * let's get started now :)
  */
 
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
-// #include <fcntl.h>
-// #include <sys/types.h>
-// #include <sys/file.h>
-// #include <sys/stat.h>
-// #include <unistd.h>
-// #include <errno.h>
-#include <ctype.h>
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/file.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <errno.h>
+#include "../List_ADT/linkedlist.h"
 
 #define MAX_SIZE 1024
 
-int read_file(int fd, char *filename, list *l);
-int read_line(int fd, char *line, int max_line_size);
-int tokenize(char *line, list *l);
+int read_file   (int fd, char *filename, list *l);
+int read_line   (int fd, char *line, int max_line_size);
+int tokenize    (char *line, list *l); 
 
-int read_file(int fd, char *filename, list *l)
-{
+
+
+// int main(int argc, char *argv[]) {
+//     int fd = 0;
+//     char *filename;
+//     filename = (char *)malloc(sizeof(char) * 32);
+//     list l;
+//     init_SLL(&l);
+//     
+//     if(argc != 3) {
+//         printf("files not provided\n");
+//         return 0;
+//     }
+//     tokenization of first file:
+//     strcpy(filename, argv[1]);
+//     int tokens1 = read_file(fd, filename, &l); 
+//     
+//     printf("tokens 1: %d\n", tokens1);
+//     traverse(l);
+//     free(filename);
+//     return 0;
+// }
+
+
+int read_file(int fd, char *filename, list *l) {
     int token_count = 0;
     fd = open(filename, O_RDONLY);
-    if (fd == -1)
-    {
+    if(fd == -1) {
         perror("open failed");
         return errno;
     }
     char *line = (char *)malloc(sizeof(char) * MAX_SIZE);
-
-    while (read_line(fd, line, MAX_SIZE))
-    {
-        // calling the tokenization function
+    
+    while(read_line(fd, line, MAX_SIZE)) {
+        // calling the tokenization function  
         // line is read into the line
         // line will be passed to the tokenize function
         token_count += tokenize(line, l);
@@ -64,63 +86,54 @@ int read_file(int fd, char *filename, list *l)
     return token_count; // i is the length of array of strings words
 }
 
-int read_line(int fd, char *line, int max_line_size)
-{
-    int length = 0;
+
+int read_line(int fd, char *line, int max_line_size) {
+    int length = 0; 
     char ch;
-    while (length < max_line_size && read(fd, &ch, 1))
-    {
-        if (ch != '\n')
-        {
+    while(length < max_line_size && read(fd, &ch, 1)) {
+        if(ch != '\n') {
             line[length++] = ch;
-        }
-        else
-        {
+        } else {
             break;
         }
     }
 
     line[length] = '\0';
+    if(length == 0 && ch == '\n') // ignoring the empty lines but to keep continue reading the file
+        return 1;
     return length;
 }
 
-int is_punctuation(char ch)
-{
-    if (ch == ',' || ch == '.' || ch == ':' || ch == ';' || ch == '!')
+int is_punctuation(char ch) {
+    if(ch == ',' || ch == '.' || ch == ':' || ch == ';')
         return 1;
     return 0;
 }
 
-int is_space(char ch)
-{
-    if (ch == ' ' || ch == '\t' || ch == '\v')
+int is_space(char ch) {
+    if(ch == ' ' || ch == '\t' || ch == '\v')
         return 1;
     return 0;
 }
 
-char toLower(char ch)
-{
-    if (ch >= 'a' && ch <= 'z')
+char toLower(char ch) {
+    if(ch >= 'a' && ch <= 'z')
         return ch;
-    if (ch >= 'A' && ch <= 'Z')
+    if(ch >= 'A' && ch <= 'Z')
         ch += ('a' - 'A');
     return ch;
-    // return tolower(ch);
 }
 
-int tokenize(char *line, list *l)
-{
+
+int tokenize(char *line, list *l) {
     int i = 0; // for line traversal
     int j = 0; // for word traversal
     int tokens = 0;
-
-    char *word = (char *)malloc(sizeof(char) * 64);
-    while (line[i] != '\0')
-    {
-        if (is_space(line[i]) || is_punctuation(line[i]))
-        {
-            if (!is_space(line[i - 1]) && !is_punctuation(line[i - 1]))
-            {
+    
+    char *word = (char *)malloc(sizeof(char) * 64); 
+    while(line[i] != '\0') {
+        if(is_space(line[i]) || is_punctuation(line[i])) {
+            if(!is_space(line[i-1]) && !is_punctuation(line[i-1])) {
                 word[j] = '\0';
                 append(l, word);
                 j = 0;
@@ -129,13 +142,11 @@ int tokenize(char *line, list *l)
             i++;
             continue;
         }
-        else
-        {
-            word[j++] = toLower(line[i++]);
+        else {
+            word[j++] = line[i++];
         }
     }
-    if (j != 0)
-    {
+    if(j != 0) {
         word[j] = '\0';
         append(l, word);
         tokens++;
