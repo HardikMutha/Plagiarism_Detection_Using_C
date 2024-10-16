@@ -25,10 +25,20 @@ int insertCSVintoTrie(const char *filename, trie *t)
             insertWord(t, buf);
             i = 0;
         }
-        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
+        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_')
         {
-            buf[i++] = (char)tolower(ch);
+            buf[i++] = ch;
         }
     }
     return 1;
 }
+
+// int main(int argc, char *argv[]){
+//     trie t;
+//     createNode(&t);
+//     char str[64];
+//     insertCSVintoTrie(argv[1], &t);
+//     displayTrie(t, str, 0);
+//     freeTrie(&t);
+//     return 0;
+// }

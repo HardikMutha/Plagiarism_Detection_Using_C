@@ -3,9 +3,20 @@
 #include <string.h>
 #include "trie.h"
 
-int containsKey(node *p, char ch)
+int getBase(char ch)
 {
-    return (p->links[(int)ch - 'a'] != NULL);
+    if(ch >= 'A' && ch <= 'Z')
+        return 65;
+    else if(ch >= 'a' && ch <= 'z')
+        return 70;
+    else if(ch == '_')
+        return 69;
+    return -1;
+}
+
+int containsKey(node *p, char ch, int base)
+{
+    return (p->links[(int)ch - base] != NULL);
 }
 
 void createNode(trie *t)
@@ -17,19 +28,21 @@ void createNode(trie *t)
 void insertWord(trie *t, char *data)
 {
     int len = strlen(data);
+    int base = 0;
     if (len == 0)
         return;
     node *p = *t;
     for (int i = 0; i < len; i++)
     {
-        if (data[i] < 'a' || data[i] > 'z')
+        base = getBase(data[i]);
+        if(base == -1)
             return;
-        if (containsKey(p, data[i]))
-            p = p->links[(int)data[i] - 'a'];
+        if (containsKey(p, data[i], base))
+            p = p->links[(int)data[i] - base];
         else
         {
-            createNode(&p->links[(int)data[i] - 'a']);
-            p = p->links[(int)data[i] - 'a'];
+            createNode(&p->links[(int)data[i] - base]);
+            p = p->links[(int)data[i] - base];
         }
     }
     p->isEndOfWord = 1;
@@ -39,16 +52,18 @@ void insertWord(trie *t, char *data)
 int searchWord(trie t, char *key)
 {
     int len = strlen(key);
+    int base = 0;
     if (len == 0)
         return 0;
     node *p = t;
     for (int i = 0; i < len; i++)
     {
-        if (key[i] < 'a' || key[i] > 'z')
+        base = getBase(key[i]);
+        if(base == -1)
             return 0;
-        if (!containsKey(p, key[i]))
+        if (!containsKey(p, key[i], base))
             return 0;
-        p = p->links[(int)key[i] - 'a'];
+        p = p->links[(int)key[i] - base];
     }
     if (!p->isEndOfWord)
         return 0;
@@ -58,16 +73,18 @@ int searchWord(trie t, char *key)
 int startsWith(trie t, char *key)
 {
     int len = strlen(key);
+    int base = 0;
     if (len == 0)
         return 0;
     node *p = t;
     for (int i = 0; i < len; i++)
     {
-        if (key[i] < 'a' || key[i] > 'z')
+        base = getBase(key[i]);
+        if(base == -1)
             return 0;
-        if (!containsKey(p, key[i]))
+        if (!containsKey(p, key[i], base))
             return 0;
-        p = p->links[(int)key[i] - 'a'];
+        p = p->links[(int)key[i] - base];
     }
     return 1;
 }
@@ -78,24 +95,32 @@ void displayTrie(trie t, char *prefix, int length)
         return;
     if (t->isEndOfWord)
     {
-        prefix[length] = '\0';
+        prefix[length] = '\0';  // Null terminate the string
         printf("%s\n", prefix);
     }
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i < 53; i++)
     {
         if (t->links[i] != NULL)
         {
-            prefix[length] = 'a' + i;
+            if (i >= 0 && i <= 25)
+                prefix[length] = 'A' + i;      // Upper-case letters ('A' to 'Z')
+            else if (i == 26)
+                prefix[length] = '_';          // Underscore ('_')
+            else if (i >= 27 && i <= 52)
+                prefix[length] = 'a' + (i - 27); // Lower-case letters ('a' to 'z')
+
             displayTrie(t->links[i], prefix, length + 1);
         }
     }
+    return;
 }
+
 
 void freeTrie(trie *t)
 {
     if (*t == NULL)
         return;
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i < 53; i++)
     {
         if ((*t)->links[i] != NULL)
             freeTrie(&((*t)->links[i]));
