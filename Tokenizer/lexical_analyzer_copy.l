@@ -44,7 +44,7 @@ int total =0 ;
 
 "+"|"-"|"*"|"/"  {total++; fprintf(yyout,"Arithmatic %s\n",yytext);}
 
-"and"|"or"|"not"|"nand"|"xor"|"nor"|"xnor"  {total++; fprintf(yyout,"Logical %s\n",yytext);}
+"&&"|"||"|"!"|"^"  {total++; fprintf(yyout,"Logical %s\n",yytext);}
 
 "<="|">="|"++"|"!="|"=="|"<"|">"  {total++; fprintf(yyout,"Relational %s\n",yytext);}
 
