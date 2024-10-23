@@ -30,45 +30,45 @@ int total =0 ;
 
 #.* {total++; fprintf(yyout, "Preprocessor %s\n",yytext);}
 
-[''|,|;(|)|{|}|.|_] {total++; fprintf(yyout,"Delimiter: %s\n",yytext);}
+[''|,|;(|)|{|}|.|_] {total++; fprintf(yyout,"Delimiter %s\n",yytext);}
 
-[[]] {total++; fprintf(yyout,"Delimiter: %s\n",yytext);}
+[[]] {total++; fprintf(yyout,"Delimiter %s\n",yytext);}
 
-"#"|"@"|"$"|"^"|"%"|"^"|"&" {total++; fprintf(yyout,"SpecialCharacters: %s\n",yytext);}
+"#"|"@"|"$"|"^"|"%"|"^"|"&" {total++; fprintf(yyout,"SpecialCharacters %s\n",yytext);}
 
-"["|"]" {total++; fprintf(yyout,"Delimiter: %s\n",yytext);}
-
-
-"="  {total++; fprintf(yyout,"Assign: %s\n",yytext);}
+"["|"]" {total++; fprintf(yyout,"Delimiter %s\n",yytext);}
 
 
-"+"|"-"|"*"|"/"  {total++; fprintf(yyout,"Arithmatic: %s\n",yytext);}
+"="  {total++; fprintf(yyout,"Assign %s\n",yytext);}
 
-"and"|"or"|"not"|"nand"|"xor"|"nor"|"xnor"  {total++; fprintf(yyout,"Logical: %s\n",yytext);}
 
-"<="|">="|"++"|"!="|"=="|"<"|">"  {total++; fprintf(yyout,"Relational: %s\n",yytext);}
+"+"|"-"|"*"|"/"  {total++; fprintf(yyout,"Arithmatic %s\n",yytext);}
 
-("int")|("if")|("else")|("while")|("do")|("break")|("continue")|("double")|("float")|("return")|("EOF") {total++; fprintf(yyout,"Keyword: %s\n",yytext);}
+"and"|"or"|"not"|"nand"|"xor"|"nor"|"xnor"  {total++; fprintf(yyout,"Logical %s\n",yytext);}
 
-("return")|("char")|("case")|("sizeof")|("long")|("short")|("typedef")|("switch")|("unsigned")|("void")|("static")|("struct")|("goto") {total++;fprintf(yyout,"This is Keyword:%s\n",yytext);}
+"<="|">="|"++"|"!="|"=="|"<"|">"  {total++; fprintf(yyout,"Relational %s\n",yytext);}
 
-[a-zA-Z_][a-zA-Z0-9_]*\( {total++; fprintf(yyout,"Function: %s\n",yytext);}
+("int")|("if")|("else")|("while")|("do")|("break")|("continue")|("double")|("float")|("return")|("EOF") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
 
-[a-zA-Z_][a-zA-Z0-9_]* {total++; fprintf(yyout,"Identifier: %s\n",yytext);}
+("return")|("char")|("case")|("sizeof")|("long")|("short")|("typedef")|("switch")|("unsigned")|("void")|("static")|("struct")|("goto") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
 
-[0-9]*"."[0-9]+ {total++; fprintf(yyout,"Fraction : %s\n", yytext);} 
+[a-zA-Z_][a-zA-Z0-9_]*\( {total++; fprintf(yyout,"Function %s\n",yytext);}
 
-[-][0-9]*"."[0-9]+ {total++; fprintf(yyout,"NegativeFraction : %s\n", yytext);} 
+[a-zA-Z_][a-zA-Z0-9_]* {total++; fprintf(yyout,"Identifier %s\n",yytext);}
 
-[0-9]+ {total++; fprintf(yyout,"Integer: %s\n",yytext);}
+[0-9]*"."[0-9]+ {total++; fprintf(yyout,"Fraction %s\n", yytext);} 
 
-"-"[0-9]+ {total++; fprintf(yyout,"NegativeInteger: %s\n",yytext);}
+[-][0-9]*"."[0-9]+ {total++; fprintf(yyout,"NegativeFraction %s\n", yytext);} 
 
-["]([^"\\\n]|\\.|\\\n)*["] {total++; fprintf(yyout,"String:%s\n",yytext);}
+[0-9]+ {total++; fprintf(yyout,"Integer %s\n",yytext);}
 
-"//".*" "*    {total++; fprintf(yyout,"Commment: %s\n",yytext);}
+"-"[0-9]+ {total++; fprintf(yyout,"NegativeInteger %s\n",yytext);}
 
-\/\*(.*\n)*.*\*\/    {total++; fprintf(yyout,"Comment: %s\n",yytext);}
+["]([^"\\\n]|\\.|\\\n)*["] {total++; fprintf(yyout,"String %s\n",yytext);}
+
+"//".*" "*    {total++; fprintf(yyout,"Commment %s\n",yytext);}
+
+\/\*(.*\n)*.*\*\/    {total++; fprintf(yyout,"Comment %s\n",yytext);}
 
 
 . { fprintf(yyout,"",yytext); }
