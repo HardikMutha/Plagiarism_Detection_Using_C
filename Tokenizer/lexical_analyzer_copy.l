@@ -30,7 +30,9 @@ int total =0 ;
 
 #.* {total++; fprintf(yyout, "Preprocessor %s\n",yytext);}
 
-[''|,|;(|)|{|}|.|_] {total++; fprintf(yyout,"Delimiter %s\n",yytext);}
+[''|,|(|)|.|_] {total++; fprintf(yyout,"Delimiter %s\n",yytext);}
+
+[;|{|}] {total++; fprintf(yyout, "SpDelim %s\n",yytext);}
 
 [[]] {total++; fprintf(yyout,"Delimiter %s\n",yytext);}
 

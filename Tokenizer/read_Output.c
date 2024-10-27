@@ -25,7 +25,8 @@ typedef enum {
     TOKEN_INT,
     TOKEN_NEGINT,
     TOKEN_CONSTANT,
-    TOKEN_STRING
+    TOKEN_STRING,
+    TOKEN_SPDELIM
 } TokenType;
 
 
@@ -76,7 +77,9 @@ void traverse(list l)
     listnode *temp = l.head;
     while (temp)
     {
-        printf("%s %d\n", temp->val, temp->type);
+        printf("%s ", temp->val);
+        if(temp->type == TOKEN_SPDELIM)
+            printf("\n");
         temp = temp->next;
     }
     return;
@@ -95,7 +98,7 @@ TokenType get_type(char *input) {
     /* printf("%s\n", buf); */
     /* printf("%s\n", input); */
     if(strcmp(buf, "Preprocessor") == 0) {
-        printf("here\n");
+        /* printf("here\n"); */
         return 0;
     }
     if(strcmp(buf, "Delimiter") == 0)
@@ -128,6 +131,8 @@ TokenType get_type(char *input) {
         return 14;
     if(strcmp(buf, "String") == 0)
         return 15;
+    if(strcmp(buf, "SpDelim") == 0)
+        return 16;
     return -1;
 }
 
@@ -167,6 +172,8 @@ int read_file(int fd, char *filename, list *l) {
     while(read_line(fd, buf)) {
         /* printf("buf: %s\n", buf); */
         type = get_type(buf);
+        if(type == 0)
+            continue;
         get_val(buf, val);
         append(l, val, type);
         tokens++;
