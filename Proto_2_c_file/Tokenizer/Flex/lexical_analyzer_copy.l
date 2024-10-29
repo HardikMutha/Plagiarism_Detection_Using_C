@@ -28,7 +28,7 @@ int total =0 ;
 
 
 
-#.* {total++; fprintf(yyout, "Preprocessor %s\n",yytext);}
+#.* {fprintf(yyout, "",yytext);}
 
 [''|,|(|)|.|_] {total++; fprintf(yyout,"Delimiter %s\n",yytext);}
 
@@ -66,7 +66,7 @@ int total =0 ;
 
 ["]([^"\\\n]|\\.|\\\n)*["] {total++; fprintf(yyout,"String %s\n",yytext);}
 
-"//".*" "*    {total++; fprintf(yyout,"Commment %s\n",yytext);}
+"//".*" "*    {fprintf(yyout,"",yytext);}
 
 \/\*(.*\n)*.*\*\/    {total++; fprintf(yyout,"Comment %s\n",yytext);}
 
