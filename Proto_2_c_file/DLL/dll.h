@@ -25,4 +25,8 @@ void initDLL(DLL *l);
 void insertNode_DLL(DLL *dll, list *l);
 void removeNode_DLL(DLL *dll, nodeDLL *node);
 void deleteDLL(DLL *dll);
+<<<<<<< HEAD
 void traverse_DLL(DLL l);
+=======
+void traverse_DLL(DLL l);
+>>>>>>> d5ddbb56f92b3445ebadcbe92f3d90874b7f865e
