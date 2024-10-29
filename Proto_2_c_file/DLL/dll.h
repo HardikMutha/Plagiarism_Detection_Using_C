@@ -1,19 +1,28 @@
-#include "..\SLL\sll.h"
+/*
+    Structure of Doubly Linked List -
+    Each Node in the DLL contains a pointer to a list and a flag.
+    Flag is reponsible for marking the list when a sufficient number of tokens from the list match with
+    list in other program and thus will possibly Plagiarised.
+    The DLL will be responsible for storing the headers of the linked list.
+*/
 
-typedef struct nodeDLL{
-    nodeSLL *head;
+typedef struct nodeDLL
+{
+    list *l;
     int flag;
-    int len;
     struct nodeDLL *prev;
     struct nodeDLL *next;
-}nodeDLL;
+} nodeDLL;
 
-typedef struct DLL{
+typedef struct DLL
+{
     nodeDLL *front;
     nodeDLL *rear;
-}DLL;
+    int DLL_length;
+} DLL;
 
-void init(DLL *l);
-void insertNode(DLL *l, nodeSLL *head);
-void removeNode(DLL *l, nodeDLL *node);
-void deleteDLL(DLL *l);
+void initDLL(DLL *l);
+void insertNode_DLL(DLL *dll, list *l);
+void removeNode_DLL(DLL *dll, nodeDLL *node);
+void deleteDLL(DLL *dll);
+void traverse_DLL(DLL l);
