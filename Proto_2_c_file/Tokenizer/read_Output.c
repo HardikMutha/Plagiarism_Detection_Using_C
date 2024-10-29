@@ -9,7 +9,8 @@
 
 #define MAX_TOKEN_VALUE 100
 
-typedef enum {
+typedef enum
+{
     TOKEN_PREPCROCESS = 0,
     TOKEN_DELIM,
     TOKEN_SPCHAR,
@@ -29,15 +30,16 @@ typedef enum {
     TOKEN_SPDELIM
 } TokenType;
 
-
-typedef struct listnode {
+typedef struct listnode
+{
     char *val;
     TokenType type;
     struct listnode *next;
 } listnode;
 
-typedef struct list {
-    listnode  *head;
+typedef struct list
+{
+    listnode *head;
     int len;
 } list;
 
@@ -78,81 +80,73 @@ void traverse(list l)
     while (temp)
     {
         printf("%s ", temp->val);
-        if(temp->type == TOKEN_SPDELIM)
+        if (temp->type == TOKEN_SPDELIM)
             printf("\n");
         temp = temp->next;
     }
     return;
 }
 
+TokenType get_type(char *buf)
+{
 
-
-TokenType get_type(char *input) {
-    int i = 0;
-    char buf[32];
-    while(input[i] != ' ') {
-        buf[i] = input[i];
-        i++;
-    }
-    buf[i] = '\0';
-    /* printf("%s\n", buf); */
-    /* printf("%s\n", input); */
-    if(strcmp(buf, "Preprocessor") == 0) {
-        /* printf("here\n"); */
+    if (strcmp(buf, "Preprocessor") == 0)
         return 0;
-    }
-    if(strcmp(buf, "Delimiter") == 0)
+    if (strcmp(buf, "Delimiter") == 0)
         return 1;
-    if(strcmp(buf, "SpecialCharacters") == 0)
+    if (strcmp(buf, "SpecialCharacters") == 0)
         return 2;
-    if(strcmp(buf, "Assign") == 0)
+    if (strcmp(buf, "Assign") == 0)
         return 3;
-    if(strcmp(buf, "Arithmatic") == 0)
+    if (strcmp(buf, "Arithmatic") == 0)
         return 4;
-    if(strcmp(buf, "Logical") == 0)
+    if (strcmp(buf, "Logical") == 0)
         return 5;
-    if(strcmp(buf, "Relational") == 0)
+    if (strcmp(buf, "Relational") == 0)
         return 6;
-    if(strcmp(buf, "Keyword") == 0)
+    if (strcmp(buf, "Keyword") == 0)
         return 7;
-    if(strcmp(buf, "Function") == 0)
+    if (strcmp(buf, "Function") == 0)
         return 8;
-    if(strcmp(buf, "Identifier") == 0)
+    if (strcmp(buf, "Identifier") == 0)
         return 9;
-    if(strcmp(buf, "Fraction") == 0)
+    if (strcmp(buf, "Fraction") == 0)
         return 10;
-    if(strcmp(buf, "NegativeFraction") == 0)
+    if (strcmp(buf, "NegativeFraction") == 0)
         return 11;
-    if(strcmp(buf, "Integer") == 0)
+    if (strcmp(buf, "Integer") == 0)
         return 12;
-    if(strcmp(buf, "NegativeInteger") == 0)
+    if (strcmp(buf, "NegativeInteger") == 0)
         return 13;
-    if(strcmp(buf, "Constant") == 0)
+    if (strcmp(buf, "Constant") == 0)
         return 14;
-    if(strcmp(buf, "String") == 0)
+    if (strcmp(buf, "String") == 0)
         return 15;
-    if(strcmp(buf, "SpDelim") == 0)
+    if (strcmp(buf, "SpDelim") == 0)
         return 16;
     return -1;
 }
 
-int get_val(char *input, char *val) {
+int get_val(char *input, char *val)
+{
     /* printf("input: %s\n", input); */
     int i = 0, j = 0;
-    while(input[i++] != ' ')
+    while (input[i++] != ' ')
         ;
-    while(input[i])
+    while (input[i])
         val[j++] = input[i++];
     val[j] = '\0';
     /* printf("val: %s\n", val); */
     return 1;
 }
 
-int read_line(int fd, char *buf) {
+int read_line(int fd, char *buf)
+{
     char ch;
     int i = 0;
-    while(read(fd, &ch, 1)) {
-        if(ch == '\n')
+    while (read(fd, &ch, 1))
+    {
+        if (ch == '\n')
             break;
         buf[i++] = ch;
     }
@@ -160,19 +154,22 @@ int read_line(int fd, char *buf) {
     return i;
 }
 
-int read_file(int fd, char *filename, list *l) {
+int read_file(int fd, char *filename, list *l)
+{
     fd = open(filename, O_RDONLY);
-    if(fd == -1) {
+    if (fd == -1)
+    {
         perror("open failed");
         return errno;
     }
     char buf[100], val[100];
     int tokens = 0;
     TokenType type;
-    while(read_line(fd, buf)) {
+    while (read_line(fd, buf))
+    {
         /* printf("buf: %s\n", buf); */
         type = get_type(buf);
-        if(type == 0)
+        if (type == 0)
             continue;
         get_val(buf, val);
         append(l, val, type);
@@ -181,10 +178,11 @@ int read_file(int fd, char *filename, list *l) {
     return tokens;
 }
 
-
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     int fd = 0;
-    if(argc < 2) {
+    if (argc < 2)
+    {
         printf("invalid input file\n");
         return -1;
     }

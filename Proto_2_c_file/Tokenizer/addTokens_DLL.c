@@ -51,7 +51,6 @@ int read_file(int fd, char *filename, dll *l)
     while (read_line(fd, line))
     {
         char *identifier_type = strtok(line, " ");
-        // printf("%s\n", identifier_type);
         if (strcmp(identifier_type, "SpDelim") != 0)
         {
             add_to_buffer(identifier_type, buffer);
