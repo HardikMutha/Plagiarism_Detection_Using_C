@@ -2,20 +2,36 @@
 
 int total =0 ;
 
-/* typedef enum { */
-/*     TOKEN_PREPROCESS, */
-/*     TOKEN_DELIMITE */
+/* typedef enum */
+/* { */
+/*     TOKEN_PREPCROCESS = 0, */
+/*     TOKEN_DELIM, */
+/*     TOKEN_SPCHAR, */
 /*     TOKEN_ASSIGN, */
-/*     TOKEN_OPERATOR, */
+/*     TOKEN_ARITHMATIX, */
+/*     TOKEN_LOGICAL, */
+/*     TOKEN_RELATIONAL, */
 /*     TOKEN_KEYWORD, */
-/*     TOKEN_FUNCTION */
+/*     TOKEN_FUNCTION, */
+/*     TOKEN_IDENTIFIER, */
+/*     TOKEN_FRACT, */
+/*     TOKEN_NEGFRACT, */
+/*     TOKEN_INT, */
+/*     TOKEN_NEGINT, */
+/*     TOKEN_CONSTANT, */
+/*     TOKEN_STRING, */
+/*     TOKEN_KEYINT, */
+/*     TOKEN_KEYFLOAT, */
+/*     TOKEN_SPDELIM */
 /* } TokenType; */
 
-/* typedef struct Token { */
-/*     char token_val[32]; */
-/*     TokenType token_type; */
-/*     struct Token *next; */
-/* } Token; */
+/* typedef struct listnode */
+/* { */
+/*     char *val; */
+/*     TokenType type; */
+/*     struct listnode *next; */
+/* } listnode; */
+
 %}
 
 %option noyywrap
@@ -40,9 +56,7 @@ int total =0 ;
 
 "["|"]" {total++; fprintf(yyout,"Delimiter %s\n",yytext);}
 
-
 "="  {total++; fprintf(yyout,"Assign %s\n",yytext);}
-
 
 "+"|"-"|"*"|"/"  {total++; fprintf(yyout,"Arithmatic %s\n",yytext);}
 
@@ -50,9 +64,30 @@ int total =0 ;
 
 "<="|">="|"++"|"!="|"=="|"<"|">"  {total++; fprintf(yyout,"Relational %s\n",yytext);}
 
-("int")|("if")|("else")|("while")|("do")|("break")|("continue")|("double")|("float")|("return")|("EOF") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
+("int")|("long")|("short")  {total++; fprintf(yyout,"INT %s\n",yytext);}
+("long"([ \t]*)"long")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("long"([ \t]*)"int")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("short"([ \t]*)"int")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("unsigned"([ \t]*)"int")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("unsigned"([ \t]*)"long")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("unsigned"([ \t]*)"short")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("long"([ \t]*)"long"([ \t]*)"int")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("unsigned"([ \t]*)"long"([ \t]*)"int")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("unsigned"([ \t]*)"short"([ \t]*)"int")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("unsigned"([ \t]*)"long"([ \t]*)"long")  {total++; fprintf(yyout,"INT %s\n", yytext);}
+("unsigned"([ \t]*)"long"([ \t]*)"long"([ \t]*)"int") {total++; fprintf(yyout,"INT %s\n", yytext);}
 
-("return")|("char")|("case")|("sizeof")|("long")|("short")|("typedef")|("switch")|("unsigned")|("void")|("static")|("struct")|("goto") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
+("float")|("double")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
+("long"([ \t]*)"float")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
+("long"([ \t]*)"double")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
+("unsigned"([ \t]*)"float")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
+("unsigned"([ \t]*)"double")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
+("unsigned"([ \t]*)"long"([ \t]*)"float")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
+("unsigned"([ \t]*)"long"([ \t]*)"double")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
+
+("if")|("else")|("while")|("do")|("break")|("continue")|("return")|("EOF") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
+
+("return")|("char")|("case")|("sizeof")|("typedef")|("switch")|("unsigned")|("bool")|("void")|("static")|("struct")|("goto") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
 
 [a-zA-Z_][a-zA-Z0-9_]*\( {total++; fprintf(yyout,"Function %s\n",yytext);}
 
