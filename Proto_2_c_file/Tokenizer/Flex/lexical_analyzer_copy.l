@@ -87,7 +87,7 @@ int total =0 ;
 
 ("if")|("else")|("while")|("do")|("break")|("continue")|("return")|("EOF") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
 
-("return")|("char")|("case")|("sizeof")|("typedef")|("switch")|("unsigned")|("bool")|("void")|("static")|("struct")|("goto") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
+("return")|("char")|("case")|("sizeof")|("typedef")|("switch")|("unsigned")|("bool")|("void")|("static")|("struct")|("goto")|("size_t")|("size") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
 
 [a-zA-Z_][a-zA-Z0-9_]*\( {total++; fprintf(yyout,"Function %s\n",yytext);}
 
