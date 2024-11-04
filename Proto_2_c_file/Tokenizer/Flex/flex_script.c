@@ -17,8 +17,8 @@ filename1 -> This is the filename with the extension .l and contains the rules o
 		  -> Upon execution a file named "lexer" will be generated which is the final lexer tool
 
 filename2 -> This is the filename upon which the lexer should act upon i.e our source file
-			 The which the script automatically runs is
-								./lexer filename2
+			 The command which the script automatically runs is
+							./lexer filename2
 			The expected output is then achieved
 */
 

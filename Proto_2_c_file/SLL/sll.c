@@ -95,7 +95,11 @@ TokenType get_type(char *buf)
         return 14;
     if (strcmp(buf, "String") == 0)
         return 15;
-    if (strcmp(buf, "SpDelim") == 0)
+    if (strcmp(buf, "INT") == 0)
         return 16;
+    if (strcmp(buf, "FLOAT") == 0)
+        return 17;
+    if (strcmp(buf, "SpDelim") == 0)
+        return 18;
     return -1;
 }

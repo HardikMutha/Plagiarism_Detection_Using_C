@@ -151,10 +151,10 @@ main()
 extern FILE *yyin, *yyout; 
   
     
-    yyin = fopen("input.txt", "r"); 
+    yyin = fopen("input2.txt", "r"); 
   
    
-    yyout = fopen("Output.txt", "w"); 
+    yyout = fopen("../../Output2.txt", "w"); 
   
     yylex();
 

@@ -26,71 +26,82 @@
  */
 #define debug1 printf("here1\n");
 #define debug2 printf("here2\n");
+#define max(A, B) (A) > (B) ? (A) : (B)
 
-int compare_slls(list *l1, list *l2) {
+int should_value_be_checked(TokenType t)
+{
+    if (t == TOKEN_DELIM || t == TOKEN_SPCHAR || t == TOKEN_LOGICAL || t == TOKEN_ARITHMATIX || t == TOKEN_RELATIONAL || t == TOKEN_KEYWORD)
+        return 1;
+    return 0;
+}
+
+double compare_slls(list *l1, list *l2)
+{
     listnode *temp1 = l1->head;
     listnode *temp2 = l2->head;
-    int match = 0;
-    /* int extra = 2; */
-    while(temp1 != NULL && temp2 != NULL) {
-        if(temp1->type == temp2->type) {
-            match++;
-            /* debug1 */
-            /* if(temp1->type != 9 && strcmp(temp1->val, temp2->val) == 0) */
-            /*     match += extra; */
+    int len_list1 = l1->len;
+    int matched_tokens = 0;
+    while (temp1 && temp2)
+    {
+        if (temp1->type == temp2->type)
+        {
+            if (should_value_be_checked(temp1->type))
+            {
+                if (strcmp(temp1->val, temp2->val) == 0)
+                    matched_tokens++;
+            }
+            else
+                matched_tokens++;
         }
-        /* else */
-        /*     break; */
+        else
+            break;
         temp1 = temp1->next;
         temp2 = temp2->next;
     }
-    /* printf("match: %d\n", match); */
-    return match;
+    double score = matched_tokens * 1.0;
+    if (len_list1 > 0)
+        return (score / len_list1);
+    else
+        return 0.0;
 }
 
-int get_list_length(list l) {
-    listnode *temp = l.head;
-    int length = 0;
-    while(temp != NULL) {
-        length++;
-        temp = temp->next;
-    }
-    return length;
-}
-
-int compare_dlls(DLL *l1, DLL *l2) {
+double compare_dlls(DLL *l1, DLL *l2)
+{
     nodeDLL *temp1 = l1->front;
     nodeDLL *temp2 = l2->front;
-    printf("lengths: %d %d\n", l1->DLL_length, l2->DLL_length);
-    int max_match = 0;
-    int match = 0;
-    int matched_lines = 0;
-    /* int running = 0; */
-    while(temp1 != NULL) {
-        int len = get_list_length(*(temp1->l));
-        while(temp2 != NULL) {
+    // printf("%d\n", l1->DLL_length);
+    double match = 0.0;
+    double max_match = 0.0;
+    double sum_max_match_primary = 0.0;
+    while (temp1 != NULL)
+    {
+        traverse_SLL(*(temp1->l));
+        while (temp2 != NULL)
+        {
             match = compare_slls(temp1->l, temp2->l);
-            if(match >= max_match) {
-                max_match = match;
-                if(max_match == len) {
-                    matched_lines++;    
-                    break;
-                }
-                /* running++; */
-            }
+            max_match = max(match, max_match);
+            if (temp2->max_match < match)
+                temp2->max_match = match;
             temp2 = temp2->next;
         }
+        printf("%.2lf\n", max_match);
+        temp1->max_match = max_match;
+        sum_max_match_primary += max_match;
         temp1 = temp1->next;
         temp2 = l2->front;
-        max_match = 0;
+        max_match = 0.0;
     }
-    return matched_lines;
+    return sum_max_match_primary;
 }
 
-
-int compare_files(DLL *file1, DLL *file2) {
-    int matched_lines = 0;
+double compare_files(DLL *file1, DLL *file2)
+{
+    double matched_lines = 0;
     matched_lines = compare_dlls(file1, file2);
     return matched_lines;
 }
 
+double get_final_ans(DLL *l, double sum)
+{
+    return (sum / (l->DLL_length * 1.0));
+}

@@ -135,14 +135,12 @@ TokenType get_type(char *buf)
 
 int get_val(char *input, char *val)
 {
-    /* printf("input: %s\n", input); */
     int i = 0, j = 0;
     while (input[i++] != ' ')
         ;
     while (input[i])
         val[j++] = input[i++];
     val[j] = '\0';
-    /* printf("val: %s\n", val); */
     return 1;
 }
 
@@ -173,7 +171,7 @@ int read_file(int fd, char *filename, list *l)
     TokenType type;
     while (read_line(fd, buf))
     {
-        /* printf("buf: %s\n", buf); */
+        printf("buf: %s\n", buf);
         type = get_type(buf);
         if (type == 0)
             continue;

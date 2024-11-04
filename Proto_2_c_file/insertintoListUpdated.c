@@ -6,7 +6,7 @@
 #include <errno.h>
 #include "SLL/sll.h"
 #include "./DLL/dll.h"
-#include "compare_lists.c"
+#include "./compare_lists.c"
 
 // This Function reads lines individually from the tokenized output File
 int read_line(int fd, char *buf)
@@ -49,17 +49,28 @@ void insertListHeaders_into_DLL(int fd, DLL *AllTokenHeaders)
     char line[128];
     list *l = (list *)malloc(sizeof(list));
     list *temp = l;
+    int cnt = 0;
+    /*
+        To avoid insertion of Empty List in case of Two Consecutive Special Delimiters,
+        a counter is initialized
+    */
     while (read_line(fd, line))
     {
         char *token_type = strtok(line, " ");
         char *token_val = strtok(NULL, " ");
         if (strcmp(token_type, "SpDelim") == 0)
         {
+            if (cnt == 0)
+                continue;
             insertNode_DLL(AllTokenHeaders, temp);
             temp = (list *)malloc(sizeof(list));
+            cnt = 0;
         }
         else
+        {
             insertLines_into_list(fd, temp, token_val, token_type);
+            cnt++;
+        }
     }
 }
 
@@ -87,10 +98,8 @@ int main(int argc, char const *argv[])
     insertListHeaders_into_DLL(fd1, &AllTokenHeaders1);
     initDLL(&AllTokenHeaders2);
     insertListHeaders_into_DLL(fd2, &AllTokenHeaders2);
-    /* traverse_DLL(AllTokenHeaders1); */
-    /* deleteDLL(&AllTokenHeaders1); */
-    int matched_lines = compare_files(&AllTokenHeaders1, &AllTokenHeaders2);
-    printf("Matched Lines: %d\n", matched_lines);
-    /* printf("total lines in dll1: %d\n", AllTokenHeaders1.DLL_length); */
+    double matched_lines = compare_files(&AllTokenHeaders1, &AllTokenHeaders2);
+    double final_ans = get_final_ans(&AllTokenHeaders1, matched_lines);
+    printf("Final Ans = %.3lf\n", final_ans);
     return 0;
 }
