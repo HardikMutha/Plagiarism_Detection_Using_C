@@ -16,6 +16,7 @@ void insertNode_DLL(DLL *dll, list *l)
     nodeDLL *temp = (nodeDLL *)malloc(sizeof(nodeDLL));
     temp->l = l;
     temp->flag = 0;
+    temp->max_match = 0.0;
     temp->prev = NULL;
     temp->next = NULL;
     if (dll->front == NULL)

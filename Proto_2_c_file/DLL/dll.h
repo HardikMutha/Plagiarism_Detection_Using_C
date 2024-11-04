@@ -10,6 +10,7 @@ typedef struct nodeDLL
 {
     list *l;
     int flag;
+    double max_match;
     struct nodeDLL *prev;
     struct nodeDLL *next;
 } nodeDLL;
