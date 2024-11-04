@@ -99,7 +99,9 @@ TokenType get_type(char *buf)
         return 16;
     if (strcmp(buf, "FLOAT") == 0)
         return 17;
-    if (strcmp(buf, "SpDelim") == 0)
+    if (strcmp(buf, "Loop") == 0)
         return 18;
+    if (strcmp(buf, "SpDelim") == 0)
+        return 19;
     return -1;
 }

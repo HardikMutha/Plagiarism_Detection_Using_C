@@ -27,6 +27,7 @@ typedef enum
     TOKEN_NEGINT,
     TOKEN_CONSTANT,
     TOKEN_STRING,
+    TOKEN_LOOP,
     TOKEN_SPDELIM
 } TokenType;
 
