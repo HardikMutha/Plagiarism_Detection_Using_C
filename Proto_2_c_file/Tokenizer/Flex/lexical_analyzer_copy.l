@@ -85,7 +85,9 @@ int total =0 ;
 ("unsigned"([ \t]*)"long"([ \t]*)"float")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
 ("unsigned"([ \t]*)"long"([ \t]*)"double")  {total++; fprintf(yyout,"FLOAT %s\n",yytext);}
 
-("if")|("else")|("while")|("do")|("break")|("continue")|("return")|("EOF") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
+("for")|("while")|("do")  {total++; fprintf(yyout,"Loop %s\n",yytext);}
+
+("if")|("else")|("break")|("continue")|("return")|("EOF") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
 
 ("return")|("char")|("case")|("sizeof")|("typedef")|("switch")|("unsigned")|("bool")|("void")|("static")|("struct")|("goto")|("size_t")|("size") {total++; fprintf(yyout,"Keyword %s\n",yytext);}
 
