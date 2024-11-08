@@ -7,8 +7,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
-#include<limits.h>
-#include "./BST_ADT/bst.c"
-#include "./List_ADT/linkedlist.c"
-#include "./string_tokenization/string_array_conversion.c"
-#include "./Jaccard/JaccardSim.c"
+#include <limits.h>
+#include "../assets/TXT_ADT's/BST_ADT/bst.c"
+#include "../assets/TXT_ADT's/List_ADT/linkedlist.c"
+#include "./Helpers/string_array_conversion.c"
+#include "./Helpers/JaccardSim.c"
+#include "./Helpers/ngram.c"
