@@ -4,22 +4,20 @@
 int main(int argc, char *argv[])
 {
 
+    // file reading -
+    int fd = 0;
+    char *filename;
+    filename = (char *)malloc(sizeof(char) * 32);
+    if (argc != 3)
+    {
+        fprintf(stderr, "Invalid Number of Arguments, Please Provid Filenames !!\n");
+        exit(1);
+    }
     list words_file1; // list to store words of file 1
     init_SLL(&words_file1);
 
     list words_file2; // list to store words of file 2
     init_SLL(&words_file2);
-
-    // file reading -
-    int fd = 0;
-    char *filename; // words[MAX_SIZE][MAX_SIZE];
-    filename = (char *)malloc(sizeof(char) * 32);
-
-    if (argc != 3)
-    {
-        printf("files not provided\n");
-        return 0;
-    }
 
     strcpy(filename, argv[1]);
     int tokens1 = read_file(fd, filename, &words_file1);
@@ -90,11 +88,9 @@ int main(int argc, char *argv[])
     destroyTree(&trigramToks_file2);
     /*Code for trigram Ends*/
 
-    /*Print the final result along with filenames*/
-
     /*
      *   Calculate the similarity for bigram as well as trigram tokens and display their
-     *    average for more accuarate results
+     *   average for more accuarate results
      */
 
     double file1_to_file2_similarity = (Jaccard_bigram_similarity_file1 + Jaccard_trigram_similarity_file1) / 2.0;

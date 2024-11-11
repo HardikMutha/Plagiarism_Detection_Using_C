@@ -1,46 +1,28 @@
-
 /* For PDF parsing we wil be using Poppler library which is a great library when it comes to
 parse and extract text from PDF documents */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <poppler.h>/* A great library for PDF parsing */
+#include "./pdf_parser.h"
 
-// Function declarations
+// int main(int argc, char *argv[])
+// {
+//     if (argc != 2)
+//     {
+//         fprintf(stderr, "Usage: %s <input.pdf>\n", argv[0]);
+//         return 1;
+//     }
 
-/* This function returns the absolute path of a file */
-char *get_absolute_path(char *filename);
-
-/* This function returns URI created from the absolute path */
-char *create_uri_from_path(char *absolute_path, GError **error);
-
-/* This function opens a document and returns so that it can be read later*/
-PopplerDocument *open_pdf_document(char *uri, GError **error);
-
-/* This function reads the content of the PDF document and returns it*/
-char *get_pdf_data(char *pdf_filename);
-
-/* This function prints the PDF content */
-void print_pdf_data(char *pdf_content);
-
-int main(int argc, char *argv[])
-{
-    if (argc != 2)
-    {
-        fprintf(stderr, "Usage: %s <input.pdf>\n", argv[0]);
-        return 1;
-    }
-
-    /* Get the pdf data */
-    char *pdf_data = get_pdf_data(argv[1]);
-    if (pdf_data == NULL)
-    {
-        return 1;
-    }
-    printf("%s", pdf_data);
-    return 0;
-}
+//     /* Get the pdf data */
+//     char *pdf_data = get_pdf_data(argv[1]);
+//     if (pdf_data == NULL)
+//     {
+//         return 1;
+//     }
+//     printf("%s", pdf_data);
+//     return 0;
+// }
 /* This function will return the absolute path when provided with a filename
 we need this as we will use this further to get the URI of the target file
 It uses the realpath() function of the C stdlib.
@@ -52,15 +34,14 @@ char *get_absolute_path(char *filename)
     {
         fprintf(stderr, "Error getting absolute path for %s\n", filename);
     }
-    /* printf("Absolute path: %s\n", absolute_path); */
     return absolute_path;
 }
 
 /* This function returns the URI from the given absolute path using GLIB's g_filename_to_uri(function)
 we need it as it is the parameter that is passed to poppler's function
 poppler_document_new_from_file().
+*/
 
- */
 char *create_uri_from_path(char *absolute_path, GError **error)
 {
     char *uri = g_filename_to_uri(absolute_path, NULL, error);
