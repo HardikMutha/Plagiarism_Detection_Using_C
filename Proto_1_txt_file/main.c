@@ -4,13 +4,14 @@ void check_filetypes_and_update_filenames(char *filename1, char *filename2, char
 {
     FileType ft1 = getFileType(argv[1]);
     FileType ft2 = getFileType(argv[2]);
+    FILE *fptr1 = fopen("./Tests/PDFTEMP1.txt", "w");
+    FILE *fptr2 = fopen("./Tests/PDFTEMP2.txt", "w");
     if (ft1 == 1)
         strcpy(filename1, argv[1]);
     else if (ft1 == 2)
     {
         char *pdf_data = get_pdf_data(argv[1]);
-        FILE *fptr = fopen("./Tests/PDFTEMP1.txt", "w");
-        fprintf(fptr, "%s", pdf_data);
+        fprintf(fptr1, "%s", pdf_data);
         free(pdf_data);
         strcpy(filename1, "./Tests/PDFTEMP1.txt");
     }
@@ -19,8 +20,7 @@ void check_filetypes_and_update_filenames(char *filename1, char *filename2, char
     else if (ft2 == 2)
     {
         char *pdf_data = get_pdf_data(argv[2]);
-        FILE *fptr = fopen("./Tests/PDFTEMP2.txt", "w");
-        fprintf(fptr, "%s", pdf_data);
+        fprintf(fptr2, "%s", pdf_data);
         free(pdf_data);
         strcpy(filename2, "./Tests/PDFTEMP2.txt");
     }

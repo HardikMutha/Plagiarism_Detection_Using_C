@@ -29,7 +29,7 @@ FileType getFileType(char *filename)
     for (j = 0; j < SIZE && i < len; j++, i++)
         fileType[j] = filename[i];
     fileType[j] = '\0';
-    printf("%s\n", fileType);
+    // printf("%s\n", fileType);
     if (strcmp(fileType, ".txt") == 0)
         return 1;
     else if (strcmp(fileType, ".pdf") == 0)
