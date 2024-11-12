@@ -1,10 +1,9 @@
 /* For PDF parsing we wil be using Poppler library which is a great library when it comes to
 parse and extract text from PDF documents */
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "./pdf_parser.h"
+#include <poppler.h>
+#include "pdf_parser.h"
 
 // int main(int argc, char *argv[])
 // {

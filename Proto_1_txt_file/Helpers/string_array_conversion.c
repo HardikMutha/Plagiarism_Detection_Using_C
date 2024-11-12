@@ -19,8 +19,6 @@
  *      -> return type: int(words size)
  *      -> leading and trailing white spaces are ignored
  *      -> all punctuation marks(',', ';', ':', '.', '-') and sigle spaces are converted to commas separating each word on the given line
- *
- *
  */
 
 #define MAX_SIZE 1024

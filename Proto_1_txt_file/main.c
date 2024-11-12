@@ -1,33 +1,58 @@
-
 #include "./mainheader.h"
+
+void check_filetypes_and_update_filenames(char *filename1, char *filename2, char *argv[])
+{
+    FileType ft1 = getFileType(argv[1]);
+    FileType ft2 = getFileType(argv[2]);
+    if (ft1 == 1)
+        strcpy(filename1, argv[1]);
+    else if (ft1 == 2)
+    {
+        char *pdf_data = get_pdf_data(argv[1]);
+        FILE *fptr = fopen("./Tests/PDFTEMP1.txt", "w");
+        fprintf(fptr, "%s", pdf_data);
+        free(pdf_data);
+        strcpy(filename1, "./Tests/PDFTEMP1.txt");
+    }
+    if (ft2 == 1)
+        strcpy(filename2, argv[2]);
+    else if (ft2 == 2)
+    {
+        char *pdf_data = get_pdf_data(argv[2]);
+        FILE *fptr = fopen("./Tests/PDFTEMP2.txt", "w");
+        fprintf(fptr, "%s", pdf_data);
+        free(pdf_data);
+        strcpy(filename2, "./Tests/PDFTEMP2.txt");
+    }
+    return;
+}
 
 int main(int argc, char *argv[])
 {
 
     // file reading -
     int fd = 0;
-    char *filename;
-    filename = (char *)malloc(sizeof(char) * 32);
+    char filename1[32];
+    char filename2[32];
     if (argc != 3)
     {
         fprintf(stderr, "Invalid Number of Arguments, Please Provid Filenames !!\n");
         exit(1);
     }
+
+    check_filetypes_and_update_filenames(filename1, filename2, argv);
+
     list words_file1; // list to store words of file 1
     init_SLL(&words_file1);
 
     list words_file2; // list to store words of file 2
     init_SLL(&words_file2);
 
-    strcpy(filename, argv[1]);
-    int tokens1 = read_file(fd, filename, &words_file1);
+    int tokens1 = read_file(fd, filename1, &words_file1);
     words_file1.len = tokens1;
 
-    strcpy(filename, argv[2]);
-    int tokens2 = read_file(fd, filename, &words_file2);
+    int tokens2 = read_file(fd, filename2, &words_file2);
     words_file2.len = tokens2;
-
-    free(filename);
     // End of file reading;
 
     // for file 1 - (initialization of BST for bigram, trigram token storage of file 1)
@@ -98,5 +123,6 @@ int main(int argc, char *argv[])
 
     printf("The Similarity %% of %s with respect to %s is %.2lf%%\n", argv[1], argv[2], (file1_to_file2_similarity * 100));
     printf("The Similarity %% of %s with respect to %s is %.2lf%% \n", argv[2], argv[1], (file2_to_file1_similarity * 100));
+    system("rm ./Tests/PDFTEMP1.txt ./Tests/PDFTEMP2.txt");
     return 0;
 }

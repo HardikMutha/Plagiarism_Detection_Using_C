@@ -13,3 +13,5 @@
 #include "./Helpers/string_array_conversion.c"
 #include "./Helpers/JaccardSim.c"
 #include "./Helpers/ngram.c"
+#include "./Helpers/ProcessFiles.c"
+#include "./PDF_Parser/pdf_parser.h"
