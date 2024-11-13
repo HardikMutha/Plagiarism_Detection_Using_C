@@ -148,15 +148,15 @@ int total =0 ;
 
 %%
 
-main()
+int main(int argc, char *argv[])
 {
 extern FILE *yyin, *yyout; 
   
     
-    yyin = fopen("input2.txt", "r"); 
+    yyin = fopen(argv[1], "r"); 
   
    
-    yyout = fopen("../../Output2.txt", "w"); 
+    yyout = fopen("output.txt", "w"); 
   
     yylex();
 
