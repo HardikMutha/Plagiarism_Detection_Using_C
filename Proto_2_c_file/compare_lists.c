@@ -75,7 +75,7 @@ double compare_dlls(DLL *l1, DLL *l2)
     double sum_max_match_primary = 0.0;
     while (temp1 != NULL)
     {
-        traverse_SLL(*(temp1->l));
+        /* traverse_SLL(*(temp1->l)); */
         while (temp2 != NULL)
         {
             match = compare_slls(temp1->l, temp2->l);
@@ -84,7 +84,7 @@ double compare_dlls(DLL *l1, DLL *l2)
                 temp2->max_match = match;
             temp2 = temp2->next;
         }
-        printf("%.2lf\n", max_match);
+        /* printf("%.2lf\n", max_match); */
         temp1->max_match = max_match;
         sum_max_match_primary += max_match;
         temp1 = temp1->next;

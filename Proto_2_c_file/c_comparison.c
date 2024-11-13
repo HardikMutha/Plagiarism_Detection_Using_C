@@ -98,8 +98,12 @@ int main(int argc, char const *argv[])
     insertListHeaders_into_DLL(fd1, &AllTokenHeaders1);
     initDLL(&AllTokenHeaders2);
     insertListHeaders_into_DLL(fd2, &AllTokenHeaders2);
-    double matched_lines = compare_files(&AllTokenHeaders1, &AllTokenHeaders2);
-    double final_ans = get_final_ans(&AllTokenHeaders1, matched_lines);
-    printf("Final Ans = %.3lf\n", final_ans);
+    double matched_lines1 = compare_files(&AllTokenHeaders1, &AllTokenHeaders2);
+    double final_ans1 = get_final_ans(&AllTokenHeaders1, matched_lines1);
+    printf("Similarity of File1 wrt File2 = %.2lf\n", (final_ans1 * 100));
+
+    double matched_lines2 = compare_files(&AllTokenHeaders2, &AllTokenHeaders1);
+    double final_ans2 = get_final_ans(&AllTokenHeaders2, matched_lines2);
+    printf("Similarity of File2 wrt File1 = %.2lf\n", (final_ans2 * 100));
     return 0;
 }

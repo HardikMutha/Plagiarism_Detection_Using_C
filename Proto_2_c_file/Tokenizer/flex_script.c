@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 	}
 	a[i + 5] = '\0';
 	int result = system(a);
-	int result2 = system("gcc lex.yy.c -Wall -o lexer");
+	int result2 = system("gcc lex.yy.c -o lexer -w");
 	strcpy(a, "./lexer ");
 	int len = strlen(a);
 	for (i = 0; i < strlen(filename2); i++)
