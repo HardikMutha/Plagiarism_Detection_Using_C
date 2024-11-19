@@ -23,14 +23,14 @@
 
 #define MAX_SIZE 1024
 
-int read_file(int fd, char *filename, list *l);
+int read_file(char *filename, list *l);
 int read_line(int fd, char *line, int max_line_size);
 int tokenize(char *line, list *l);
 
-int read_file(int fd, char *filename, list *l)
+int read_file(char *filename, list *l)
 {
     int token_count = 0;
-    fd = open(filename, O_RDONLY);
+    int fd = open(filename, O_RDONLY);
     if (fd == -1)
     {
         perror("open failed");

@@ -1,0 +1,15 @@
+INT int
+Function main(
+Delimiter )
+SpDelim {
+Function printf(
+String "Sum of array elements: %d\n"
+Delimiter ,
+Identifier sum
+Delimiter )
+SpDelim ;
+Keyword return
+Integer 0
+SpDelim ;
+SpDelim }
+Total Tokens = 14

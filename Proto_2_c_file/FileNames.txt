@@ -1,0 +1,4 @@
+./Tests/Output1.txt
+./Tests/Output2.txt
+./Tests/Output3.txt
+./Tests/Output4.txt

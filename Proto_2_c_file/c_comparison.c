@@ -44,8 +44,9 @@ This function is responsible for insertion of the list headers into the DLL
     -> A new list is then initialized to store the next set of tokens
 */
 
-void insertListHeaders_into_DLL(int fd, DLL *AllTokenHeaders)
+void insertListHeaders_into_DLL(char *filename, DLL *AllTokenHeaders)
 {
+    int fd = open(filename, O_RDONLY);
     char line[128];
     list *l = (list *)malloc(sizeof(list));
     list *temp = l;
@@ -76,7 +77,7 @@ void insertListHeaders_into_DLL(int fd, DLL *AllTokenHeaders)
 
 int main(int argc, char const *argv[])
 {
-    if (argc < 2)
+    if (argc < 1)
     {
         fprintf(stderr, "Invalid Number of Arguments\n");
         return -1;
@@ -87,23 +88,33 @@ int main(int argc, char const *argv[])
         perror("Error Opening the File\n");
         return errno;
     }
-    int fd2 = open(argv[2], O_RDONLY);
-    if (fd2 == -1)
+    // system("chmod +x ./trial.sh");
+    // system("./trial.sh");
+    FILE *fptr = fopen("./FileNames.txt", "r");
+    if (fptr == NULL)
+        printf("Null\n");
+    char filenames[128][64];
+    int numfiles = 0;
+    while (fscanf(fptr, "%s", filenames[numfiles]) > 0)
+        numfiles++;
+    DLL AllTokenHeaders[numfiles];
+    for (int i = 0; i < numfiles; i++)
     {
-        perror("Error Opening the File\n");
-        return errno;
+        initDLL(&AllTokenHeaders[i]);
+        insertListHeaders_into_DLL(filenames[i], &AllTokenHeaders[i]);
     }
-    DLL AllTokenHeaders1, AllTokenHeaders2;
-    initDLL(&AllTokenHeaders1);
-    insertListHeaders_into_DLL(fd1, &AllTokenHeaders1);
-    initDLL(&AllTokenHeaders2);
-    insertListHeaders_into_DLL(fd2, &AllTokenHeaders2);
-    double matched_lines1 = compare_files(&AllTokenHeaders1, &AllTokenHeaders2);
-    double final_ans1 = get_final_ans(&AllTokenHeaders1, matched_lines1);
-    printf("Similarity of File1 wrt File2 = %.2lf\n", (final_ans1 * 100));
-
-    double matched_lines2 = compare_files(&AllTokenHeaders2, &AllTokenHeaders1);
-    double final_ans2 = get_final_ans(&AllTokenHeaders2, matched_lines2);
-    printf("Similarity of File2 wrt File1 = %.2lf\n", (final_ans2 * 100));
+    for (int i = 0; i < numfiles; i++)
+    {
+        for (int j = i + 1; j < numfiles; j++)
+        {
+            double matched_lines = compare_files(&AllTokenHeaders[i], &AllTokenHeaders[j]);
+            double final_ans = get_final_ans(&AllTokenHeaders[i], matched_lines);
+            printf("Similarity of file %d w.r.t to file %d is = %.2lf\n", (i + 1), (j + 1), (final_ans * 100));
+            matched_lines = compare_files(&AllTokenHeaders[j], &AllTokenHeaders[i]);
+            final_ans = get_final_ans(&AllTokenHeaders[j], matched_lines);
+            printf("Similarity of file %d w.r.t to file %d is = %.2lf\n", (j + 1), (i + 1), (final_ans * 100));
+        }
+        deleteDLL(&AllTokenHeaders[i]);
+    }
     return 0;
 }

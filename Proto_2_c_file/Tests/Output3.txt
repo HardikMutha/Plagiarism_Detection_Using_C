@@ -1,0 +1,79 @@
+INT int
+Function main(
+Delimiter )
+SpDelim {
+INT int
+Identifier arr
+Delimiter []
+Assign =
+SpDelim {
+Integer 1
+Delimiter ,
+Integer 2
+Delimiter ,
+Integer 3
+Delimiter ,
+Integer 4
+Delimiter ,
+Integer 5
+SpDelim }
+SpDelim ;
+INT int
+Identifier sum
+Assign =
+Integer 0
+SpDelim ;
+INT int
+Identifier len
+Assign =
+Function sizeof(
+Identifier arr
+Delimiter )
+Arithmatic /
+Function sizeof(
+Identifier arr
+Delimiter [
+Integer 0
+Delimiter ]
+Delimiter )
+SpDelim ;
+Identifier for
+Delimiter (
+INT int
+Identifier idx
+Assign =
+Integer 0
+SpDelim ;
+Identifier idx
+Relational <
+Identifier len
+SpDelim ;
+Identifier idx
+Relational ++
+Delimiter )
+SpDelim {
+Identifier sum
+Arithmatic +
+Assign =
+Identifier arr
+Delimiter [
+Identifier idx
+Delimiter ]
+SpDelim ;
+SpDelim }
+Function printf(
+String "Sum of array elements: %d\n"
+Delimiter ,
+Identifier sum
+Delimiter )
+SpDelim ;
+Keyword return
+Integer 0
+SpDelim ;
+SpDelim }
+
+
+
+
+
+ Total Tokens = 73
