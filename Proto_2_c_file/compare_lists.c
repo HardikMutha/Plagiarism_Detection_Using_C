@@ -86,7 +86,8 @@ double compare_dlls(DLL *l1, DLL *l2)
         }
         /* printf("%.2lf\n", max_match); */
         temp1->max_match = max_match;
-        sum_max_match_primary += max_match;
+        if (max_match >= 0.8f)
+            sum_max_match_primary += max_match;
         temp1 = temp1->next;
         temp2 = l2->front;
         max_match = 0.0;

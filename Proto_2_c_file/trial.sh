@@ -1,1 +1,0 @@
-ls ./Tests > FileNames.txt

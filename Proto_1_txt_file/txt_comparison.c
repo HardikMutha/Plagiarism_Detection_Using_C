@@ -1,5 +1,7 @@
 #include "./mainheader.h"
 #include <dirent.h>
+char pdfFileNamesOnly[64][256];
+int pdfFileNameSize = 0;
 
 void check_filetypes_and_update_filenames(char *filename, int fileNumber)
 {
@@ -11,6 +13,8 @@ void check_filetypes_and_update_filenames(char *filename, int fileNumber)
         newFilename[strlen(newFilename)] = fileNumber + '0';
         newFilename[strlen(newFilename) + 1] = '\0';
         strcat(newFilename, ".txt");
+        strcpy(pdfFileNamesOnly[pdfFileNameSize], newFilename);
+        pdfFileNameSize++;
         FILE *fptr = fopen(newFilename, "w");
         if (fptr == NULL)
         {
@@ -21,6 +25,7 @@ void check_filetypes_and_update_filenames(char *filename, int fileNumber)
         fprintf(fptr, "%s", pdf_data);
         free(pdf_data);
         strcpy(filename, newFilename);
+        fclose(fptr);
         return;
     }
     return;
@@ -96,6 +101,7 @@ int main(int argc, char *argv[])
             double file_j_to_file_i_similarity = (bigram_similarity_file2 + trigram_similarity_file2) / 2.0;
             printf("The Similarity %% of %s with respect to %s is %.2lf%%\n", filenames[i], filenames[j], (file_i_to_file_j_similarity * 100));
             printf("The Similarity %% of %s with respect to %s is %.2lf%%\n", filenames[j], filenames[i], (file_j_to_file_i_similarity * 100));
+            // printf("%d\n", j);
         }
         destroyTree(&bigramTokens[i]);
         destroyTree(&trigramTokens[i]);
@@ -103,5 +109,12 @@ int main(int argc, char *argv[])
     free(tokens);
     free(totalbigrams);
     free(totaltrigrams);
+    for (int i = 0; i < pdfFileNameSize; i += 1)
+    {
+        char command[256];
+        strcpy(command, "rm ");
+        strcat(command, pdfFileNamesOnly[i]);
+        system(command);
+    }
     return 0;
 }

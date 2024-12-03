@@ -7,6 +7,8 @@
 #include "SLL/sll.h"
 #include "./DLL/dll.h"
 #include "./compare_lists.c"
+#include "generateGraph.c"
+#include "writeHTML.c"
 
 // This Function reads lines individually from the tokenized output File
 int read_line(int fd, char *buf)
@@ -75,8 +77,16 @@ void insertListHeaders_into_DLL(char *filename, DLL *AllTokenHeaders)
     }
 }
 
+typedef struct Similarity_Pair
+{
+    char filenames[256][64];
+    double simscore[256];
+    int len;
+} Similarity_Pair;
+
 int main(int argc, char const *argv[])
 {
+    system("mkdir Output_Graphs -p");
     if (argc < 1)
     {
         fprintf(stderr, "Invalid Number of Arguments\n");
@@ -88,8 +98,6 @@ int main(int argc, char const *argv[])
         perror("Error Opening the File\n");
         return errno;
     }
-    // system("chmod +x ./trial.sh");
-    // system("./trial.sh");
     FILE *fptr = fopen("./FileNames.txt", "r");
     if (fptr == NULL)
         printf("Null\n");
@@ -103,18 +111,39 @@ int main(int argc, char const *argv[])
         initDLL(&AllTokenHeaders[i]);
         insertListHeaders_into_DLL(filenames[i], &AllTokenHeaders[i]);
     }
+    Similarity_Pair files_similarity_pairs[numfiles];
+    for (int i = 0; i < numfiles; i++)
+        files_similarity_pairs[i].len = 0;
+
     for (int i = 0; i < numfiles; i++)
     {
         for (int j = i + 1; j < numfiles; j++)
         {
             double matched_lines = compare_files(&AllTokenHeaders[i], &AllTokenHeaders[j]);
             double final_ans = get_final_ans(&AllTokenHeaders[i], matched_lines);
-            printf("Similarity of file %d w.r.t to file %d is = %.2lf\n", (i + 1), (j + 1), (final_ans * 100));
+
+            int curr_len = files_similarity_pairs[i].len;
+            strcpy(files_similarity_pairs[i].filenames[curr_len], filenames[j]);
+            files_similarity_pairs[i].simscore[curr_len] = final_ans;
+            files_similarity_pairs[i].len++;
+
+            // printf("Similarity of file %s w.r.t to file %s is = %.2lf\n", filenames[i], filenames[j], (final_ans * 100));
+
             matched_lines = compare_files(&AllTokenHeaders[j], &AllTokenHeaders[i]);
             final_ans = get_final_ans(&AllTokenHeaders[j], matched_lines);
-            printf("Similarity of file %d w.r.t to file %d is = %.2lf\n", (j + 1), (i + 1), (final_ans * 100));
+            curr_len = files_similarity_pairs[j].len;
+            strcpy(files_similarity_pairs[j].filenames[curr_len], filenames[i]);
+            files_similarity_pairs[j].simscore[curr_len] = final_ans;
+            files_similarity_pairs[j].len++;
+            // printf("Similarity of file %d w.r.t to file %d is = %.2lf\n", (j + 1), (i + 1), (final_ans * 100));
         }
         deleteDLL(&AllTokenHeaders[i]);
     }
+    for (int i = 0; i < numfiles; i++)
+    {
+        generateGraph(filenames[i], files_similarity_pairs[i].filenames, files_similarity_pairs[i].simscore, files_similarity_pairs[i].len, i + 1);
+    }
+    writeToHTML(numfiles);
+    system("open ./index.html");
     return 0;
 }
