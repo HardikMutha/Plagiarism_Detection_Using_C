@@ -8,7 +8,7 @@
 #include "./DLL/dll.h"
 #include "./compare_lists.c"
 #include "generateGraph.c"
-#include "writeHTML.c"
+/* #include "writeHTML.c" */
 
 // This Function reads lines individually from the tokenized output File
 int read_line(int fd, char *buf)
@@ -48,7 +48,11 @@ This function is responsible for insertion of the list headers into the DLL
 
 void insertListHeaders_into_DLL(char *filename, DLL *AllTokenHeaders)
 {
-    int fd = open(filename, O_RDONLY);
+    char *file = (char *)malloc(sizeof(char) * 128);
+    strcpy(file, "./Outputs/Tests/");
+    strcat(file, filename);
+    int fd = open(file, O_RDONLY);
+    free(file);
     char line[128];
     list *l = (list *)malloc(sizeof(list));
     list *temp = l;
@@ -77,6 +81,8 @@ void insertListHeaders_into_DLL(char *filename, DLL *AllTokenHeaders)
     }
 }
 
+void writeToHTML(int numberFiles);
+
 typedef struct Similarity_Pair
 {
     char filenames[256][64];
@@ -86,7 +92,7 @@ typedef struct Similarity_Pair
 
 int main(int argc, char const *argv[])
 {
-    system("mkdir Output_Graphs -p");
+    system("mkdir Proto_2_c_file/Output_Graphs -p");
     if (argc < 1)
     {
         fprintf(stderr, "Invalid Number of Arguments\n");
@@ -98,7 +104,7 @@ int main(int argc, char const *argv[])
         perror("Error Opening the File\n");
         return errno;
     }
-    FILE *fptr = fopen("./FileNames.txt", "r");
+    FILE *fptr = fopen("./Outputs/FileNames.txt", "r");
     if (fptr == NULL)
         printf("Null\n");
     char filenames[128][64];
@@ -144,6 +150,30 @@ int main(int argc, char const *argv[])
         generateGraph(filenames[i], files_similarity_pairs[i].filenames, files_similarity_pairs[i].simscore, files_similarity_pairs[i].len, i + 1);
     }
     writeToHTML(numfiles);
-    system("open ./index.html");
+    /* system("open ./index.html"); */
+    printf("index.html is generated in Proto_2_c_file folder\n");
     return 0;
+}
+
+
+void writeToHTML(int numberFiles)
+{
+    char init_Code[8192] = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><title>PlagCheck Results</title><style>*{margin: 0;padding: 0;box-sizing: border-box;}h1 {text-align: center;}</style></head><body><h1>Results for Plagiarism Check</h1>";
+    for (int i = 0; i < numberFiles; i++)
+    {
+        char tempName[128] = "./Output_Graphs/";
+        char x[16];
+        intToStr(i + 1, x);
+        strcat(tempName, "Graph");
+        strcat(tempName, x);
+        strcat(tempName, ".png");
+        strcat(init_Code, "<p><img src=\"");
+        strcat(init_Code, tempName);
+        strcat(init_Code, "\"/></p>");
+    }
+    strcat(init_Code, "</body></html>");
+    FILE *fptr = fopen("./Proto_2_c_file/index.html", "w");
+    fprintf(fptr, "%s", init_Code);
+    fclose(fptr);
+    return;
 }

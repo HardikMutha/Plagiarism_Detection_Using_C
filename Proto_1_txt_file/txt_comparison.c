@@ -9,7 +9,7 @@ void check_filetypes_and_update_filenames(char *filename, int fileNumber)
     if (ft == 2)
     {
         char newFilename[128] = "";
-        strcat(newFilename, "./Tests/PdfTemp");
+        strcat(newFilename, "./Proto_1_txt_file/Tests/PdfTemp");
         newFilename[strlen(newFilename)] = fileNumber + '0';
         newFilename[strlen(newFilename) + 1] = '\0';
         strcat(newFilename, ".txt");
@@ -42,7 +42,7 @@ void readFileNames(char filenames[][128], int *num_files, char *dir_name)
         {
             if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
             {
-                char a[128] = "./Tests/";
+                char a[128] = "./Proto_1_txt_file/Tests/";
                 char *temp = realpath(strcat(a, dir->d_name), NULL);
                 if (temp)
                 {

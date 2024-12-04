@@ -1,5 +1,5 @@
 # Shell
-SHELL := /bin/bash
+SHELL = /bin/bash
 
 # compiler
 CC = gcc
@@ -7,84 +7,72 @@ CC = gcc
 # compiler flags
 CFLAGS = -Wall
 CFLAGS2 = `pkg-config --cflags --libs poppler-glib`
-CFLAGS3 = -w
+CFLAGS3 = -lm
 
 # source files
 SRCS1 = Proto_1_txt_file/txt_comparison.c
 SRCS2 = Proto_2_c_file/Tokenizer/flex_script.c
-SRCS3 = Proto_2_c_file/c_comparison.c
+SRCS3 = Proto_2_c_file/generateOutputs.c
+SRCS4 = Proto_2_c_file/c_comparison.c
+
 
 # helper files
 HLP1 = Proto_1_txt_file/PDF_Parser/pdf_parser.c
 HLP2 = Proto_2_c_file/Tokenizer/lexical_analyzer_copy.l
 HLP3 = Proto_2_c_file/DLL/dll.c
 HLP4 = Proto_2_c_file/SLL/sll.c
+HLP5 = GraphPlot/PbPlots/pbPlots.c
+HLP6 = GraphPlot/PbPlots/supportLib.c
+TEST_DIR = Outputs/Tests
 
 # lexer byproducts
 LEX1 = lexer
 LEX2 = lex.yy.c
-LEX3 = output.txt
-LEXG = Proto_2_c_file/Tokenizer/
-
-# outputs for c comparison
-O1 = Outputs/output1.txt
-O2 = Outputs/output2.txt
 
 # target files
 TARGET1 = Outputs/txt_comparison
 TARGET2 = Outputs/flex_tool
-TARGET3 = Outputs/c_comparison
+TARGET3 = Outputs/output_generator
+TARGET4 = Outputs/c_comparison
 
-# arguments
-FILE1 = $(f1)
-FILE2 = $(f2)
+#arguments
+TYPE = $(type)
+DIR = $(directory)
 
 # execution:
-# 	- checking for file formats
-# 	- compiling for required file format 
-# 	- execution with using arguments
+# 	- For text files:
+# 		-> compile txt_comparison with pdf_parser
+# 		-> execute txt_comparison with argument <dir_name>
 #
-# - txt file:
-#  		-> compile txt_comparison with pdf_parser (with required flags)
-#  		-> execute with arguments
-#
-# - C file:
-#   	-> compile flex_tool (with required flags)
-#   	-> execute with lexical_analyzer_copy and arguments (one by one)
-#   	-> first execute for first argument then second
-#   	-> for first execution output1.txt created
-#   	-> for second execution output2.txt created
-#   	-> compile c_comparison with dll and sll (with required flags)
-#		-> execute with created output1.txt and output2.txt files
-#
-#
+# 	- For c files:
+# 		-> compile flex_script into flex_tool
+# 		-> compile c_comparison
+# 		-> store files in given directory to an array
+# 		-> execute flex_tool with argument <dir_name> and lexical_analyzer
+# 		-> execute c_comparison with argument <dir_name> (Tests)
+# 		   { Tests: Directory in which the files will be stored after lexical analysis (outputs) }
+# 		   { names of these files will be stored in Filenames.txt }
+# (change karaychay c execution explanation)
+all:
 
-all: check_build
+ifeq ($(TYPE), txt)
+# txt files
+	$(CC) $(CFLAGS) $(SRCS1) $(HLP1) -o $(TARGET1) $(CFLAGS2)
+	./$(TARGET1) $(DIR)
 
-check_build: $(FILE1) $(FILE2)
-	@if [ -z "$(FILE1)" ] || [ -z "$(FILE2)" ]; then \
-		echo "Usage: make FILE1=<file1> FILE2=<file2>"; \
-		exit 1; \
-	else \
-		if [[ "$(FILE1)" == *.txt || "$(FILE1)" == *.pdf ]] && [[ "$(FILE2)" == *.txt || "$(FILE2)" == *.pdf ]]; then \
-			$(CC) $(SRCS1) $(HLP1) $(CFLAGS) $(CFLAGS2) -o $(TARGET1); \
-			$(TARGET1) $(FILE1) $(FILE2); \
-		elif [[ "$(FILE1)" == *.c ]] && [[ "$(FILE2)" == *.c ]]; then \
-			$(CC) $(CFLAGS3) $(SRCS2) -o $(TARGET2); \
-			$(TARGET2) $(HLP2) $(FILE1); \
-			mv $(LEX3) $(O1); \
-			$(TARGET2) $(HLP2) $(FILE2); \
-			mv $(LEX3) $(O2); \
-			$(CC) $(SRCS3) $(HLP3) $(HLP4) $(CFLAGS) -o $(TARGET3); \
-			$(TARGET3) $(O1) $(O2); \
-			rm -f $(LEX1) $(LEX2); \
-		else \
-			echo "File formats are not valid"; \
-			exit 1; \
-		fi; \
-	fi; \
-	 
+else ifeq ($(TYPE), c)
+# c files
+	$(CC) $(CFLAGS) $(SRCS2) -o $(TARGET2)
+	$(CC) $(CFLAGS) $(SRCS3) -o $(TARGET3)
+	$(CC) -w $(SRCS4) $(HLP3) $(HLP4) $(HLP5) $(HLP6) -o $(TARGET4) $(CFLAGS3)
+	./$(TARGET3) $(DIR)
+	ls Outputs/Tests > Outputs/FileNames.txt
+	./$(TARGET4) $(TEST_DIR)
 
-# clean
+else
+	echo "Invalid type"
+	exit 1
+endif
+
 clean:
-	rm -f $(O1) $(O2) $(TARGET1) $(TARGET2) $(TARGET3)
+	rm -rf $(LEX1) $(LEX2)

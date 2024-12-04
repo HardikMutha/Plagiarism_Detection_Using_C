@@ -45,7 +45,7 @@ void generateGraph(char *parentFile, char childFiles[][64], double *data, int nu
         size_t length;
         ByteArray *pngdata = ConvertToPNG(canvasReference->image);
         char temp[128];
-        strcpy(temp, "./Output_Graphs/");
+        strcpy(temp, "./Proto_2_c_file/Output_Graphs/");
         strcat(temp, "Graph");
         char x[16];
         intToStr(filenumber, x);
@@ -78,8 +78,8 @@ BarPlotSettings *mygetUpdatedSettings(wchar_t *barTitle, double *data, int datal
     settings->autoPadding = false;
     settings->xPadding = 55.0;
     settings->yPadding = 50.0;
-    settings->autoBoundaries = true;
-    settings->yMax = 0.0;
+    settings->autoBoundaries = false;
+    settings->yMax = 100.0;
     settings->yMin = 0.0;
     settings->title = barTitle;
 
