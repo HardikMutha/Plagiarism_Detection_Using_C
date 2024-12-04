@@ -1,3 +1,9 @@
+/*
+    This mainheader.h file contains all the header files which will be required throught the project.
+    This file is directly included and all the header files in the file get included.
+    It is used in txt_comparison.c file.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

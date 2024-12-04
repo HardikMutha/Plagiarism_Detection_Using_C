@@ -57,7 +57,7 @@ all:
 
 ifeq ($(TYPE), txt)
 # txt files
-	$(CC) $(CFLAGS) $(SRCS1) $(HLP1) -o $(TARGET1) $(CFLAGS2)
+	$(CC) $(CFLAGS3) $(SRCS1) $(HLP1) -o $(TARGET1) $(CFLAGS2)
 	./$(TARGET1) $(DIR)
 
 else ifeq ($(TYPE), c)
@@ -67,7 +67,7 @@ else ifeq ($(TYPE), c)
 	$(CC) -w $(SRCS4) $(HLP3) $(HLP4) $(HLP5) $(HLP6) -o $(TARGET4) $(CFLAGS3)
 	./$(TARGET3) $(DIR)
 	ls Outputs/Tests > Outputs/FileNames.txt
-	./$(TARGET4) $(TEST_DIR)
+	./$(TARGET4) $(TEST_DIR) $(DIR)
 
 else
 	echo "Invalid type"

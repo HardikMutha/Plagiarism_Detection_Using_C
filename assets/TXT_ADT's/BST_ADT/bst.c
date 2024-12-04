@@ -1,6 +1,3 @@
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
 #include "bst.h"
 
 void initBST(tree *t)
@@ -9,7 +6,7 @@ void initBST(tree *t)
     return;
 }
 
-int insertValue(tree *t, char *val)
+int insertValue(tree *t, char *val) // Recursive Function to insert a value in the BST
 {
     treenode *newNode = (treenode *)malloc(sizeof(treenode));
     newNode->left = NULL;
@@ -35,15 +32,6 @@ int insertValue(tree *t, char *val)
     return 0;
 }
 
-/*
-Inorder Traversal involves
-left root right
-        [root]
-        /   \
-    [left]  [right]
-On a BST, Inorder Traversal gives back the data in sorted Order
-*/
-
 void inOrderTraversal(tree t)
 {
     if (t == NULL)
@@ -52,11 +40,6 @@ void inOrderTraversal(tree t)
     printf("%s\n", t->val);
     inOrderTraversal(t->right);
 }
-
-/*
-Pre-Order Traversal -
-    root left right
-*/
 
 void preOrderTraversal(tree t)
 {
@@ -79,10 +62,6 @@ void postOrderTraversal(tree t)
     postOrderTraversal(t->left);
     postOrderTraversal(t->right);
     printf("%s\n", t->val);
-}
-
-void deleteNode(tree *t, char *val)
-{
 }
 
 int searchNode(tree t, char *val)

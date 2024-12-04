@@ -4,11 +4,12 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <dirent.h>
 #include "SLL/sll.h"
 #include "./DLL/dll.h"
 #include "./compare_lists.c"
 #include "generateGraph.c"
-/* #include "writeHTML.c" */
+void writeToHTML(int numberFiles);
 
 // This Function reads lines individually from the tokenized output File
 int read_line(int fd, char *buf)
@@ -81,11 +82,29 @@ void insertListHeaders_into_DLL(char *filename, DLL *AllTokenHeaders)
     }
 }
 
-void writeToHTML(int numberFiles);
+void readFileNameWithoutUpdation(char filenames[][128], int *numfiles, char *dir_name)
+{
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(dir_name);
+    if (d)
+    {
+        while ((dir = readdir(d)) != NULL)
+        {
+            if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
+            {
+                strcpy(filenames[*numfiles], dir->d_name);
+                (*numfiles)++;
+            }
+        }
+        closedir(d);
+    }
+    return;
+}
 
 typedef struct Similarity_Pair
 {
-    char filenames[256][64];
+    char filenames[256][128];
     double simscore[256];
     int len;
 } Similarity_Pair;
@@ -104,6 +123,9 @@ int main(int argc, char const *argv[])
         perror("Error Opening the File\n");
         return errno;
     }
+    char originalFilenames[128][128];
+    int originalFilenamesLen = 0;
+    readFileNameWithoutUpdation(originalFilenames, &originalFilenamesLen, argv[2]);
     FILE *fptr = fopen("./Outputs/FileNames.txt", "r");
     if (fptr == NULL)
         printf("Null\n");
@@ -129,7 +151,7 @@ int main(int argc, char const *argv[])
             double final_ans = get_final_ans(&AllTokenHeaders[i], matched_lines);
 
             int curr_len = files_similarity_pairs[i].len;
-            strcpy(files_similarity_pairs[i].filenames[curr_len], filenames[j]);
+            strcpy(files_similarity_pairs[i].filenames[curr_len], originalFilenames[j]);
             files_similarity_pairs[i].simscore[curr_len] = final_ans;
             files_similarity_pairs[i].len++;
 
@@ -138,27 +160,27 @@ int main(int argc, char const *argv[])
             matched_lines = compare_files(&AllTokenHeaders[j], &AllTokenHeaders[i]);
             final_ans = get_final_ans(&AllTokenHeaders[j], matched_lines);
             curr_len = files_similarity_pairs[j].len;
-            strcpy(files_similarity_pairs[j].filenames[curr_len], filenames[i]);
+            strcpy(files_similarity_pairs[j].filenames[curr_len], originalFilenames[i]);
             files_similarity_pairs[j].simscore[curr_len] = final_ans;
             files_similarity_pairs[j].len++;
+            reset_flags_max_match_values(&AllTokenHeaders[i]);
+            reset_flags_max_match_values(&AllTokenHeaders[j]);
             // printf("Similarity of file %d w.r.t to file %d is = %.2lf\n", (j + 1), (i + 1), (final_ans * 100));
         }
         deleteDLL(&AllTokenHeaders[i]);
     }
     for (int i = 0; i < numfiles; i++)
     {
-        generateGraph(filenames[i], files_similarity_pairs[i].filenames, files_similarity_pairs[i].simscore, files_similarity_pairs[i].len, i + 1);
+        generateGraph(originalFilenames[i], files_similarity_pairs[i].filenames, files_similarity_pairs[i].simscore, files_similarity_pairs[i].len, i + 1);
     }
     writeToHTML(numfiles);
-    /* system("open ./index.html"); */
     printf("index.html is generated in Proto_2_c_file folder\n");
     return 0;
 }
 
-
 void writeToHTML(int numberFiles)
 {
-    char init_Code[8192] = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><title>PlagCheck Results</title><style>*{margin: 0;padding: 0;box-sizing: border-box;}h1 {text-align: center;}</style></head><body><h1>Results for Plagiarism Check</h1>";
+    char init_Code[8192] = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><title>PlagCheck Results</title><link rel=\"stylesheet\" href=\"./style.css\"><style>*{margin: 0;padding: 0;box-sizing: border-box;}h1 {text-align: center;}</style></head><body><h1>Results for Plagiarism Check</h1>";
     for (int i = 0; i < numberFiles; i++)
     {
         char tempName[128] = "./Output_Graphs/";

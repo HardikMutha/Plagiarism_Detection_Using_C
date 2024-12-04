@@ -1,20 +1,12 @@
 INT int
-Function sum(
+Function alhad(
 INT int
 Identifier a
 Delimiter ,
 INT int
 Identifier b
 Delimiter )
-SpDelim {
-Keyword return
-Delimiter (
-Identifier a
-Arithmatic +
-Identifier b
-Delimiter )
 SpDelim ;
-SpDelim }
 INT int
 Function main(
 Delimiter )
@@ -36,7 +28,7 @@ SpDelim ;
 Function printf(
 String "%d\n"
 Delimiter ,
-Function sum(
+Function alhad(
 Identifier a
 Delimiter ,
 Identifier b
@@ -47,9 +39,26 @@ Keyword return
 Integer 0
 SpDelim ;
 SpDelim }
+INT int
+Function alhad(
+INT int
+Identifier a
+Delimiter ,
+INT int
+Identifier b
+Delimiter )
+SpDelim {
+Keyword return
+Delimiter (
+Identifier a
+Arithmatic +
+Identifier b
+Delimiter )
+SpDelim ;
+SpDelim }
 
 
 
 
 
- Total Tokens = 49
+ Total Tokens = 58

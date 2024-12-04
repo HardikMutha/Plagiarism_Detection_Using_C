@@ -51,7 +51,7 @@ void traverse(list l)
     return;
 }
 
-void insert_at_beg(list *l, char *val)
+void insert_at_beg(list *l, char *val) // insert node into linked list at beginning
 {
     listnode *newNode = (listnode *)malloc(sizeof(listnode));
     newNode->next = NULL;
@@ -62,7 +62,7 @@ void insert_at_beg(list *l, char *val)
     l->len++;
 }
 
-void remove_at_beg(list *l)
+void remove_at_beg(list *l) // Remove Node from the begining of the linked list
 {
     if (l->head == NULL)
         return;
@@ -77,7 +77,7 @@ void remove_at_beg(list *l)
     return;
 }
 
-void deleteList(list *l)
+void deleteList(list *l) // Delete a linked list completely and return memory to OS
 {
     listnode *p = l->head;
     while (p != NULL)

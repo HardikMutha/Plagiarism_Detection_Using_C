@@ -69,22 +69,27 @@ double compare_dlls(DLL *l1, DLL *l2)
 {
     nodeDLL *temp1 = l1->front;
     nodeDLL *temp2 = l2->front;
-    // printf("%d\n", l1->DLL_length);
     double match = 0.0;
     double max_match = 0.0;
     double sum_max_match_primary = 0.0;
     while (temp1 != NULL)
     {
-        /* traverse_SLL(*(temp1->l)); */
+
         while (temp2 != NULL)
         {
+            if (temp2->flag == 1)
+            {
+                temp2 = temp2->next;
+                continue;
+            }
             match = compare_slls(temp1->l, temp2->l);
+            if (match == 1)
+                temp2->flag = 1;
             max_match = max(match, max_match);
             if (temp2->max_match < match)
                 temp2->max_match = match;
             temp2 = temp2->next;
         }
-        /* printf("%.2lf\n", max_match); */
         temp1->max_match = max_match;
         if (max_match >= 0.8f)
             sum_max_match_primary += max_match;
@@ -93,6 +98,17 @@ double compare_dlls(DLL *l1, DLL *l2)
         max_match = 0.0;
     }
     return sum_max_match_primary;
+}
+void reset_flags_max_match_values(DLL *l1)
+{
+    nodeDLL *temp = l1->front;
+    while (temp)
+    {
+        temp->flag = 0;
+        temp->max_match = 0.0;
+        temp = temp->next;
+    }
+    return;
 }
 
 double compare_files(DLL *file1, DLL *file2)
