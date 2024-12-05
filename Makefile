@@ -10,17 +10,17 @@ CFLAGS2 = `pkg-config --cflags --libs poppler-glib`
 CFLAGS3 = -lm
 
 # source files
-SRCS1 = Proto_1_txt_file/txt_comparison.c
-SRCS2 = Proto_2_c_file/Tokenizer/flex_script.c
-SRCS3 = Proto_2_c_file/generateOutputs.c
-SRCS4 = Proto_2_c_file/c_comparison.c
+SRCS1 = TextPlagiarism/txt_comparison.c
+SRCS2 = CPlagiarism/Tokenizer/flex_script.c
+SRCS3 = CPlagiarism/generateOutputs.c
+SRCS4 = CPlagiarism/c_comparison.c
 
 
 # helper files
-HLP1 = Proto_1_txt_file/PDF_Parser/pdf_parser.c
-HLP2 = Proto_2_c_file/Tokenizer/lexical_analyzer_copy.l
-HLP3 = Proto_2_c_file/DLL/dll.c
-HLP4 = Proto_2_c_file/SLL/sll.c
+HLP1 = TextPlagiarism/PDF_Parser/pdf_parser.c
+HLP2 = CPlagiarism/Tokenizer/lexical_analyzer.l
+HLP3 = CPlagiarism/DLL/dll.c
+HLP4 = CPlagiarism/SLL/sll.c
 HLP5 = GraphPlot/PbPlots/pbPlots.c
 HLP6 = GraphPlot/PbPlots/supportLib.c
 TEST_DIR = Outputs/Tests
@@ -46,21 +46,20 @@ DIR = $(directory)
 #
 # 	- For c files:
 # 		-> compile flex_script into flex_tool
-# 		-> compile c_comparison
-# 		-> store files in given directory to an array
-# 		-> execute flex_tool with argument <dir_name> and lexical_analyzer
-# 		-> execute c_comparison with argument <dir_name> (Tests)
-# 		   { Tests: Directory in which the files will be stored after lexical analysis (outputs) }
-# 		   { names of these files will be stored in Filenames.txt }
-# (change karaychay c execution explanation)
+# 		-> compile generateOutputs into output_generator
+# 		-> compile c_comparison with dll, sll, pbPlots and supportLib
+# 		-> execute output_generator with argument <dir_name>
+# 		-> list all files in Outputs/Tests and write them in Outputs/FileNames.txt
+# 		-> execute c_comparison with arguments <test_dir> and <dir_name>
+
 all:
 
 ifeq ($(TYPE), txt)
 # txt files
-	$(CC) $(CFLAGS3) $(SRCS1) $(HLP1) -o $(TARGET1) $(CFLAGS2)
+	$(CC) -w $(SRCS1) $(HLP1) $(HLP5) $(HLP6) -o $(TARGET1) $(CFLAGS2) $(CFLAGS3) 
 	./$(TARGET1) $(DIR)
 
-else ifeq ($(TYPE), c)
+else ifeq ($(TYPE), $(filter $(TYPE), c C))
 # c files
 	$(CC) $(CFLAGS) $(SRCS2) -o $(TARGET2)
 	$(CC) $(CFLAGS) $(SRCS3) -o $(TARGET3)
@@ -75,4 +74,4 @@ else
 endif
 
 clean:
-	rm -rf $(LEX1) $(LEX2)
+	rm -rf $(LEX1) $(LEX2) Outputs/FileNames Outputs/Tests/*
