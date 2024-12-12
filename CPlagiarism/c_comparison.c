@@ -52,7 +52,7 @@ void insertListHeaders_into_DLL(char *filename, DLL *AllTokenHeaders)
     strcat(file, filename);
     int fd = open(file, O_RDONLY);
     free(file);
-    char line[128];
+    char line[1024];
     list *l = (list *)malloc(sizeof(list));
     list *temp = l;
     int cnt = 0;
@@ -133,10 +133,10 @@ int main(int argc, char const *argv[])
         perror("Error Opening the File\n");
         return errno;
     }
-    char originalFilenames[128][128];   // This Stores the original Filenames to be used as graph labels
+    char originalFilenames[128][128]; // This Stores the original Filenames to be used as graph labels
     int originalFilenamesLen = 0;
     readFileNameWithoutUpdation(originalFilenames, &originalFilenamesLen, argv[2]); // Store raw filenames in the originalfileName array
-    FILE *fptr = fopen("./Outputs/FileNames.txt", "r"); // Open the file containing the filenames
+    FILE *fptr = fopen("./Outputs/FileNames.txt", "r");                             // Open the file containing the filenames
     if (fptr == NULL)
         printf("Null\n");
     char filenames[128][64]; // This array stores the updated filenames (output files of the tokenizer)
@@ -146,10 +146,10 @@ int main(int argc, char const *argv[])
     DLL AllTokenHeaders[numfiles]; // Array of DLL to store the tokenized output of all the files
     for (int i = 0; i < numfiles; i++)
     {
-        initDLL(&AllTokenHeaders[i]);   // Initialize the DLL
-        insertListHeaders_into_DLL(filenames[i], &AllTokenHeaders[i]);  // Insert the list headers into the DLL
+        initDLL(&AllTokenHeaders[i]);                                  // Initialize the DLL
+        insertListHeaders_into_DLL(filenames[i], &AllTokenHeaders[i]); // Insert the list headers into the DLL
     }
-    Similarity_Pair files_similarity_pairs[numfiles];   // Array of Similarity_Pair to store the similarity pairs of files
+    Similarity_Pair files_similarity_pairs[numfiles]; // Array of Similarity_Pair to store the similarity pairs of files
     // Initialize the length of the Similarity_Pair
     for (int i = 0; i < numfiles; i++)
         files_similarity_pairs[i].len = 0;
@@ -158,7 +158,7 @@ int main(int argc, char const *argv[])
     {
         for (int j = i + 1; j < numfiles; j++)
         {
-            double final_ans1, final_ans2;  // Variables to store the final similarity score of the files
+            double final_ans1, final_ans2; // Variables to store the final similarity score of the files
             // Compare the files and get the similarity score
             compare_files(&AllTokenHeaders[i], &AllTokenHeaders[j], &final_ans1, &final_ans2);
             // required updations to store the similarity pairs of file i with respect to file j
@@ -168,7 +168,7 @@ int main(int argc, char const *argv[])
             files_similarity_pairs[i].len++;
 
             // printf("Similarity of file %s w.r.t to file %s is = %.2lf\n", filenames[i], filenames[j], (final_ans * 100));
-            
+
             // required updations to store the similarity pairs of file j with respect to file i
             curr_len = files_similarity_pairs[j].len;
             strcpy(files_similarity_pairs[j].filenames[curr_len], originalFilenames[i]);
@@ -184,7 +184,7 @@ int main(int argc, char const *argv[])
         // Generate the graph for all the files.
         generateGraph(originalFilenames[i], files_similarity_pairs[i].filenames, files_similarity_pairs[i].simscore, files_similarity_pairs[i].len, i + 1);
     }
-    writeToHTML(numfiles);  // Write the output to the HTML file
+    writeToHTML(numfiles); // Write the output to the HTML file
     printf("index.html is generated in CPlagiarism folder\n");
     return 0;
 }
@@ -212,7 +212,7 @@ void writeToHTML(int numberFiles)
     }
     strcat(init_Code, "</body></html>");
     FILE *fptr = fopen("./CPlagiarism/index.html", "w"); // open the file to write the HTML code
-    fprintf(fptr, "%s", init_Code); // Write the HTML code to the file
+    fprintf(fptr, "%s", init_Code);                      // Write the HTML code to the file
     fclose(fptr);
     return;
 }

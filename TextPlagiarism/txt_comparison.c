@@ -29,6 +29,7 @@ void check_filetypes_and_update_filenames(char *filename, int fileNumber)
             The file is then added to the pdfFileNamesOnly array.
         */
         char newFilename[128] = "";
+        system("mkdir ./TextPlagiarism/Tests -p");
         strcat(newFilename, "./TextPlagiarism/Tests/PdfTemp");
         char x[16];
         intToStr(fileNumber, x);
@@ -69,6 +70,7 @@ void readFileNames(char filenames[][128], int *num_files, char *dir_name)
     DIR *d;
     struct dirent *dir;
     d = opendir(dir_name); // Opens the directory
+    printf("%s\n", dir_name);
     if (d)
     {
         while ((dir = readdir(d)) != NULL)
@@ -78,7 +80,9 @@ void readFileNames(char filenames[][128], int *num_files, char *dir_name)
             // 1. d_name : The name of the file/folder
             if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
             {
-                char a[128] = "./TextPlagiarism/Tests/";
+                // char a[256] = "./TextPlagiarism/Tests/";
+                char a[128];
+                strcpy(a, dir_name);
                 // The file path is passed to the realpath function to get the absolute path of the file.
                 char *temp = realpath(strcat(a, dir->d_name), NULL);
                 if (temp)
@@ -259,6 +263,7 @@ int main(int argc, char *argv[])
         strcpy(command, "rm ");
         strcat(command, pdfFileNamesOnly[i]);
         system(command);
+        system("rm -rf ./TextPlagiarism/Tests");
     }
     printf("index.html is generated in TextPlagiarism folder\n");
     return 0;
