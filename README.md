@@ -191,5 +191,6 @@ We would like to express great thanks to the following resources which greatly h
 - [JPlag Research Paper](https://www.researchgate.net/publication/2832828_Finding_Plagiarisms_among_a_Set_of_Programs_with_JPlag)
 - [Sim-Utility](https://www.researchgate.net/publication/221538300_Sim_A_utility_for_detecting_similarity_in_computer_programs)
 - [N-gram Based Text Categorization](https://www.researchgate.net/publication/2375544_N-Gram-Based_Text_Categorization)
+- Special Mention to our friend <a href="https://github.com/Mehmood-Deshmukh">Mehmood Deskmukh</a> for helping out with PDF Parser
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
