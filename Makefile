@@ -17,17 +17,17 @@ SRCS4 = CPlagiarism/c_comparison.c
 
 
 # helper files
-HLP1 = TextPlagiarism/PDF_Parser/pdf_parser.c
+HLP1 = lib/PDF_Parser/pdf_parser.c
 HLP2 = CPlagiarism/Tokenizer/lexical_analyzer.l
-HLP3 = CPlagiarism/DLL/dll.c
-HLP4 = CPlagiarism/SLL/sll.c
-HLP5 = GraphPlot/PbPlots/pbPlots.c
-HLP6 = GraphPlot/PbPlots/supportLib.c
+HLP3 = utils/DLL/dll.c
+HLP4 = utils/SLL/sll.c
+HLP5 = lib/PbPlots/pbPlots.c
+HLP6 = lib/PbPlots/supportLib.c
 TEST_DIR = Outputs/Tests
 
 # lexer byproducts
-LEX1 = lexer
-LEX2 = lex.yy.c
+LEX1 = CPlagiarism/Tokenizer/lexer
+LEX2 = CPlagiarism/Tokenizer/lex.yy.c
 
 # target files
 TARGET1 = Outputs/txt_comparison

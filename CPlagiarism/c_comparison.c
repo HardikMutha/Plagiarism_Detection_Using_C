@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <dirent.h>
-#include "SLL/sll.h"
-#include "./DLL/dll.h"
+#include "../utils/SLL/sll.h"
+#include "../utils/DLL/dll.h"
 #include "./compare_lists.c"
 #include "generateGraph.c"
 void writeToHTML(int numberFiles);

@@ -20,4 +20,4 @@
 #include "./Helpers/JaccardSim.c"
 #include "./Helpers/ngram.c"
 #include "./Helpers/ProcessFiles.c"
-#include "./PDF_Parser/pdf_parser.h"
+#include "../lib/PDF_Parser/pdf_parser.h"

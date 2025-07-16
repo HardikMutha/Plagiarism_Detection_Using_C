@@ -2,8 +2,8 @@
     This file contains Various functions required to plot the graph for similarity check result.
 */
 
-#include "../GraphPlot/PbPlots/pbPlots.h"
-#include "../GraphPlot/PbPlots/supportLib.h"
+#include "../lib/PbPlots/pbPlots.h"
+#include "../lib/PbPlots/supportLib.h"
 void generateGraph(char *parentFile, char childFiles[][128], double *data, int numberofFiles, int filenumber);
 BarPlotSettings *mygetUpdatedSettings(wchar_t *barTitle, double *data, int datalen, wchar_t *labels[]);
 void intToStr(int N, char *str);
