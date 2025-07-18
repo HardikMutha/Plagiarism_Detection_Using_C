@@ -16,8 +16,8 @@
 #include <limits.h>
 #include "../assets/TXT_ADT's/BST_ADT/bst.c"
 #include "../assets/TXT_ADT's/List_ADT/linkedlist.c"
-#include "./Helpers/string_array_conversion.c"
-#include "./Helpers/JaccardSim.c"
-#include "./Helpers/ngram.c"
-#include "./Helpers/ProcessFiles.c"
+#include "../utils/Text-Plag/string_array_conversion.c"
+#include "../utils/Text-Plag/JaccardSim.c"
+#include "../utils/Text-Plag/ngram.c"
+#include "../utils/Text-Plag/ProcessFiles.c"
 #include "../lib/PDF_Parser/pdf_parser.h"

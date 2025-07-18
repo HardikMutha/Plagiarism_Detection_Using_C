@@ -1,3 +1,4 @@
+#include <stdio.h>
 #define debug1 printf("here1\n");
 #define debug2 printf("here2\n");
 #define max(A, B) (A) > (B) ? (A) : (B)
@@ -95,7 +96,8 @@ double compare_dlls(DLL *l1, DLL *l2)
         }
         // update the max_match value of the current node of the first list
         temp1->max_match = max_match;
-        // if the max_match value is greater than or equal to 0.8, then add the value to the sum
+        // if the max_match value is greater than or equal to 0.8, then add the value to the sum_max_match_primary
+        // printf("The max_match = %lf\n",max_match);
         if (max_match >= 0.8f)
             sum_max_match_primary += max_match;
         temp1 = temp1->next;
@@ -127,6 +129,7 @@ void reset_flags_max_match_values(DLL *l1)
 */
 double get_final_ans(DLL *l, double sum)
 {
+  printf("Lenght of DLL is %d\n",l->DLL_length);
     return (double)(sum / (l->DLL_length * 1.0));
 }
 
@@ -140,9 +143,13 @@ void compare_files(DLL *file1, DLL *file2, double *final_ans1, double *final_ans
 {
     double matched_lines = 0;
     matched_lines = compare_dlls(file1, file2);
+    // printf("The Number of matched_lines are - %lf\n",matched_lines);
     *final_ans1 = get_final_ans(file1, matched_lines);
+    // printf("The final-ans1 = %lf\n",*final_ans1);
     matched_lines = compare_dlls(file2, file1);
+    // printf("The Number of matched_lines are - %lf\n",matched_lines);
     *final_ans2 = get_final_ans(file2, matched_lines);
+    // printf("The final-ans2 = %lf\n",*final_ans2);
     reset_flags_max_match_values(file1);
     reset_flags_max_match_values(file2);
     return;

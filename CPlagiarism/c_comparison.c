@@ -8,7 +8,7 @@
 #include "../utils/SLL/sll.h"
 #include "../utils/DLL/dll.h"
 #include "./compare_lists.c"
-#include "generateGraph.c"
+#include "../utils/graph-generator/generateGraph.c"
 void writeToHTML(int numberFiles);
 
 // This Function reads lines individually from the tokenized output File
@@ -78,6 +78,7 @@ void insertListHeaders_into_DLL(char *filename, DLL *AllTokenHeaders)
             cnt++;
         }
     }
+
 }
 
 /*
@@ -149,6 +150,27 @@ int main(int argc, char const *argv[])
         initDLL(&AllTokenHeaders[i]);                                  // Initialize the DLL
         insertListHeaders_into_DLL(filenames[i], &AllTokenHeaders[i]); // Insert the list headers into the DLL
     }
+    for(int i=0;i<numfiles;i++)
+    {
+      DLL temp = AllTokenHeaders[i];
+      int len = temp.DLL_length;
+      nodeDLL *dll = temp.front;
+      while (dll) 
+      {
+        listnode *head = dll->l->head;
+        printf("The length of the list = %d \n",dll->l->len);
+        while(head)
+        {
+          printf("%s  ",head->val);
+          head = head->next;
+        }
+        printf("\n");
+        dll = dll->next;
+      }
+    }
+    
+    
+
     Similarity_Pair files_similarity_pairs[numfiles]; // Array of Similarity_Pair to store the similarity pairs of files
     // Initialize the length of the Similarity_Pair
     for (int i = 0; i < numfiles; i++)
@@ -186,6 +208,7 @@ int main(int argc, char const *argv[])
     }
     writeToHTML(numfiles); // Write the output to the HTML file
     printf("index.html is generated in CPlagiarism folder\n");
+    // system("make clean");
     return 0;
 }
 

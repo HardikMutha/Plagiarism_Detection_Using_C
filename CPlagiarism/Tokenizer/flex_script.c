@@ -42,9 +42,10 @@ int main(int argc, char *argv[])
 		a[i + 5] = filename1[i];
 	}
 	a[i + 5] = '\0';
-	int result = system(a);									// command: flex filename1
-	int result2 = system("gcc lex.yy.c -o lexer -w"); 		// command: gcc lex.yy.c -o lexer -w
-	strcpy(a, "./lexer ");
+	int result = system(a);
+  system("mv lex.yy.c ./CPlagiarism/Tokenizer/");// command: flex filename1
+	int result2 = system("gcc ./CPlagiarism/Tokenizer/lex.yy.c -o ./CPlagiarism/Tokenizer/lexer -w"); 		// command: gcc lex.yy.c -o lexer -w
+	strcpy(a, "./CPlagiarism/Tokenizer/lexer ");
 	int len = strlen(a);
 	for (i = 0; i < strlen(filename2); i++)
 	{

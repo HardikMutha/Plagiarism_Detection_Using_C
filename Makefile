@@ -53,6 +53,7 @@ DIR = $(directory)
 # 		-> execute c_comparison with arguments <test_dir> and <dir_name>
 
 all:
+	mkdir -p Outputs
 
 ifeq ($(TYPE), txt)
 # txt files
@@ -74,4 +75,4 @@ else
 endif
 
 clean:
-	rm -rf $(LEX1) $(LEX2) Outputs/FileNames Outputs/Tests/*
+	rm -rf $(LEX1) $(LEX2) Outputs

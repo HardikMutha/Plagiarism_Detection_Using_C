@@ -1,6 +1,7 @@
 #include "./mainheader.h"
 #include <dirent.h>
-#include "./generateGraph.c"
+#include <stdlib.h>
+#include "../utils/graph-generator/generateGraph.c"
 
 // These variables are used to manage pdf files
 char pdfFileNamesOnly[64][256];
@@ -266,5 +267,6 @@ int main(int argc, char *argv[])
         system("rm -rf ./TextPlagiarism/Tests");
     }
     printf("index.html is generated in TextPlagiarism folder\n");
+    // system("make clean");
     return 0;
 }
