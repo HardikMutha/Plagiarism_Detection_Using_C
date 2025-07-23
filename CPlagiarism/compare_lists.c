@@ -99,7 +99,7 @@ double compare_dlls(DLL *l1, DLL *l2)
         // if the max_match value is greater than or equal to 0.8, then add the value to the sum_max_match_primary
         // printf("The max_match = %lf\n",max_match);
         if (max_match >= 0.8f)
-            sum_max_match_primary += max_match;
+            sum_max_match_primary += 1;
         temp1 = temp1->next;
         temp2 = l2->front;
         max_match = 0.0;

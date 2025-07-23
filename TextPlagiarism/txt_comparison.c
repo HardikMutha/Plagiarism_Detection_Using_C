@@ -85,10 +85,10 @@ void readFileNames(char filenames[][128], int *num_files, char *dir_name)
                 char a[128];
                 strcpy(a, dir_name);
                 // The file path is passed to the realpath function to get the absolute path of the file.
-                char *temp = realpath(strcat(a, dir->d_name), NULL);
-                if (temp)
+                char *abs_path = realpath(strcat(a, dir->d_name), NULL);
+                if (abs_path)
                 {
-                    strcpy(filenames[*num_files], temp);
+                    strcpy(filenames[*num_files], abs_path);
                     check_filetypes_and_update_filenames(filenames[*num_files], *num_files); // Filename is checked for filetype and updated accordingly.
                     // PDF files are parsed and handled specially using this function
                     (*num_files)++;
